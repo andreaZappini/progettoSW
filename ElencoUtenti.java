@@ -1,9 +1,11 @@
+import java.util.HashMap;
+
 public class ElencoUtenti {
   
-  private Hashmap<String, Utente> elencoUtenti;
+  private HashMap<String, Utente> elencoUtenti;
 
   public ElencoUtenti() {
-    this.elencoUtenti = new Hashmap<String, Utente>();
+    this.elencoUtenti = new HashMap<String, Utente>();
   }
 
   public void aggiungiUtente(Utente utente) {
