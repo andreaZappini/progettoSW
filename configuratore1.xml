@@ -1,23 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<persone>
-    <persona>
-        <nome>Mario</nome>
-        <cognome>Rossi</cognome>
-        <eta>30</eta>
-    </persona>
-    <persona>
-        <nome>Mario</nome>
-        <cognome>Rossi</cognome>
-        <eta>30</eta>
-    </persona>
-    <persona>
-        <nome>andrea</nome>
-        <cognome>zappini</cognome>
-        <eta>22</eta>
-    </persona>
-    <persona>
-        <nome>Chiara</nome>
-        <cognome>Navoni</cognome>
-        <eta>22</eta>
-    </persona>
-</persone>
+<configuratore>
+    <username>configuratore1</username>
+    <password>123456</password>
+</configuratore>
+
