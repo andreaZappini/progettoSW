@@ -6,7 +6,7 @@ public class Luogo extends Impostazioni {
     private String collocazioneGeografica;
     private ArrayList<TipoVisita> visita = new ArrayList<TipoVisita>();
 
-    public Luogo(String ambitoTerritoriale, int numeroMassimoIscrittiFruitore, ElencoLuoghi elencoLuoghi, String codiceLuogo, String descrizione, String collocazioneGeografica, ArrayList<TipoVisita> visita) {
+    public Luogo(String ambitoTerritoriale, int numeroMassimoIscrittiFruitore, Elenco<Luogo> elencoLuoghi, String codiceLuogo, String descrizione, String collocazioneGeografica, ArrayList<TipoVisita> visita) {
         super(ambitoTerritoriale, numeroMassimoIscrittiFruitore, elencoLuoghi);
         this.codiceLuogo = codiceLuogo;
         this.descrizione = descrizione;

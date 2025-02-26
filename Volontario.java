@@ -1,7 +1,6 @@
 public class Volontario extends Utente {
     
-
-    public Volontario(Credenziale credenziali){
-        super(credenziali);
+    public Volontario(String username, String password) {
+        super(username, password);
     }
 }

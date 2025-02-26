@@ -12,7 +12,7 @@ public class Main {
     private static boolean abilitazioneModificaCorpoDati = true;
     public static void main(String[] args) {
 
-        ElencoUtenti elencoUtenti = new ElencoUtenti();
+        Elenco<Utente> elencoUtenti = new Elenco();
 
         System.out.println("Benvenuto configuratore!");
         System.out.println("Inserisci username e password per accedere");
@@ -23,15 +23,14 @@ public class Main {
 
     }
 
-    private static void login(File file, ElencoUtenti elencoUtenti) {
+    private static void login(File file, Elenco<Utente> elencoUtenti) {
         try(Scanner in = new Scanner(System.in)){
             System.out.println("username:");
             String username = in.next();
             System.out.println("password:");
             String password = in.next();
-            Credenziale credenziali = new Credenziale(username, password);
-            Configuratore configuratore = new Configuratore(credenziali);
-            elencoUtenti.aggiungiUtente(configuratore);
+            Utente configuratore = new Configuratore(username, password);
+            elencoUtenti.aggiungi(configuratore);
             if(leggiXML(file, username, password)){
                 System.out.println("Accesso consentito");
                 System.out.println("necessiario modificare credenziali");
