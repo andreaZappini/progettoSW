@@ -2,5 +2,11 @@
 <configuratore>
     <username>configuratore1</username>
     <password>123456</password>
+    <primoAccesso>true</primoAccesso>
+</configuratore>
+<configuratore>
+    <username>configuratore2</username>
+    <password>123457</password>
+    <primoAccesso>true</primoAccesso>
 </configuratore>
 
