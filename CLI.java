@@ -7,6 +7,7 @@ public class CLI {
     public static void start(Elenco<Utente> elencoUtenti){
 
         //veriFIGA consistenza dati XML e elencoUtenti
+
         System.out.println("Benvenuto!");
         File file = new File("fileXML/configuratore1.xml");
         try(Scanner in = new Scanner(System.in)){
@@ -25,7 +26,7 @@ public class CLI {
                 elencoUtenti.aggiungi(elencop);
                 primaConfigurazione(elencoUtenti, in);
             }
-            while(working){}
+            while(working){
                 String ruolo = login(elencoUtenti, in);
                 switch (ruolo) {
                     case "Configuratore":
