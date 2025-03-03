@@ -3,7 +3,8 @@ import java.util.Scanner;
 
 public class CLI {
 
-    private static boolean abilitazioneModificaCorpoDati = true;
+    //salvataggio su XML!
+    private static boolean creazioneCorpoDati = true;
     
     public static void start(Elenco<Utente> elencoUtenti, 
                             File file){
@@ -11,19 +12,27 @@ public class CLI {
         //veriFIGA consistenza dati XML e elencoUtenti
         System.out.println("Benvenuto!");
 
-        if(abilitazioneModificaCorpoDati){
+        if(creazioneCorpoDati){
             primaConfigurazione(elencoUtenti, file);
         }
         
     }
 
+    //cambia su XML il valore di creazioneCorpoDati
     private static void primaConfigurazione(Elenco<Utente> elencoUtenti, 
                                             File file){
-            
         //possibile loop CONTROLLARE
         login(elencoUtenti, file);
+        try(Scanner in = new Scanner(System.in)){
+            System.out.println("Indicare l'AMBITO TERRITORIALE di competenza dell'applicazione: ");
+            String ambito = in.next();
+            int iscritti = maxIscrittiFruitore();
+            //fai il terzo punto: elenco luoghi con tipi di visita
+            }
+        }catch(Exception e){
+            e.printStackTrace();   
+        }
         
-
     }
 
     //aggiungi metodo sign in
@@ -71,5 +80,19 @@ public class CLI {
         x.setPassword(nuovaPassword);
         x.setPrimoAccesso();
         XMLUtilities.modificaXML(file, new String[]{x.getUsername(), x.getPassword()});
+    }
+
+    private static int maxIscrittiFruitore() {
+        try(Scanner in = new Scanner(System.in)){
+            int x = -1;
+            System.out.println("Indicare il numero massimo di iscritti per fruitore: ");
+            while(x = in.nextInt() < 1) {
+                System.out.println("Inserire un numero maggiore di 0");
+            }
+            return x;
+        }catch(Exception e){
+            e.printStackTrace();
+            return 0;
+        }
     }
 }
