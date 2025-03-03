@@ -1,5 +1,6 @@
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.function.Function;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -8,27 +9,22 @@ import org.w3c.dom.*;
 
 public class XMLUtilities {
     
-    public static <T> Elenco<T> leggiXML(File file)throws Exception{
+    public static <T> Elenco<T> leggiXML(File file, String contesto, Function<Element, T> parser)throws Exception{
 
+        Elenco<T> elenco = new Elenco<>();
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.parse(file);
 
-        //args[0] contiene sempre il nome del tag principale del file xml
-        NodeList lista = doc.getElementsByTagName(args[0]);
-        String[][] dati = new String[lista.getLength()][args.length - 1];
+
+        NodeList lista = doc.getElementsByTagName(contesto);
 
         for(int i = 0; i < lista.getLength(); i++){
-            Node p = lista.item(i);
-            if(p.getNodeType() == Node.ELEMENT_NODE){
-                Element persona = (Element) p;
-                for(int j = 1; j < args.length; j++){
-                    String x = persona.getElementsByTagName(args[j]).item(0).getTextContent();
-                    dati[i][j - 1] = x;
-                }
-            }
+            Element elemento = (Element) lista.item(i);
+            T obj = parser.apply(elemento);
+            elenco.aggiungi(obj);
         }
-                return dati;
+        return elenco;
     }
 
     public static void scriviXML(File file, Object o) throws Exception{

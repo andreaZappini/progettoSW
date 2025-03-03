@@ -7,6 +7,10 @@ public class Elenco<T> {
         this.elenco = new HashMap<String, T>();
     }
 
+    public HashMap<String, T> getElenco() {
+        return this.elenco;
+    }
+
     public void aggiungi(T elemento) {
         if(contiene(elemento.toString())) {
             throw new IllegalArgumentException("Elemento già presente");
@@ -14,6 +18,11 @@ public class Elenco<T> {
             this.elenco.put(elemento.toString(), elemento);
         }
     }
+
+    public void aggiungi(Elenco<T> elenco) {
+        this.elenco.putAll(elenco.getElenco());
+    }
+
     
     public void rimuovi(T elemento) {
         if(contiene(elemento.toString())) {
@@ -33,5 +42,12 @@ public class Elenco<T> {
 
     public T getElementByKey(String chiave) {
         return this.elenco.get(chiave);
+    }
+
+    public void visualizza() {
+       
+        for (String key : this.elenco.keySet()) {
+            System.out.println(this.elenco.get(key).toString());
+        }
     }
 }
