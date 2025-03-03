@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
-public class Luogo extends Impostazioni {
-    private String codiceLuogo;
+public class Luogo extends CorpoDati {
+    private String codiceLuogo; //chiave
     private String descrizione;
     private String collocazioneGeografica;
     private ArrayList<TipoVisita> visita = new ArrayList<TipoVisita>();

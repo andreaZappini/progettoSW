@@ -1,9 +1,9 @@
-public abstract class Impostazioni implements CLI {
+public abstract class CorpoDati{
     private String ambitoTerritoriale;
     private int numeroMassimoIscrittiFruitore;
-    private ElencoLuoghi elencoLuoghi;
+    private Elenco<Luogo> elencoLuoghi;
 
-    public Impostazioni(String ambitoTerritoriale, int numeroMassimoIscrittiFruitore, ElencoLuoghi elencoLuoghi) {
+    public CorpoDati(String ambitoTerritoriale, int numeroMassimoIscrittiFruitore, Elenco<Luogo> elencoLuoghi) {
         this.ambitoTerritoriale = ambitoTerritoriale;
         this.numeroMassimoIscrittiFruitore = numeroMassimoIscrittiFruitore;
         this.elencoLuoghi = elencoLuoghi;

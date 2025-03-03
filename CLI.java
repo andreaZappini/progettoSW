@@ -45,17 +45,7 @@ public class CLI {
                     System.out.println("Accesso consentito");
                     if(x.getPrimoAccesso()){
                         cambiaPSW(file, in, x);
-                        switch(x.getClass().getName()){
-                            case "Configuratore":
-                                //TODO
-                                break;
-                            case "Volontario":
-                                //TODO
-                                break;
-                            case "Fruitore":
-                                //TODO
-                                break;
-                        }
+                        XMLUtilities.scriviXML(new File("fileXML/configuratori.xml"), x);
                     }
                 }
             }
@@ -71,5 +61,13 @@ public class CLI {
         x.setPassword(nuovaPassword);
         x.setPrimoAccesso();
         XMLUtilities.modificaXML(file, new String[]{x.getUsername(), x.getPassword()});
+    }
+
+    private static void aggiungiConfiguratore(Scanner in){
+        File file = new File("fileXML/configuratori.xml");
+
+
+
+
     }
 }
