@@ -5,6 +5,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         Elenco<Utente> elencoUtenti = new Elenco<>();
+        CorpoDati corpoDati = null;
         File file = new File("fileXML/configuratori.xml");
 
         elencoUtenti = XMLUtilities.leggiXML(
@@ -27,7 +28,7 @@ public class Main {
         
         
 
-        CLI.start(elencoUtenti);
+        CLI.start(elencoUtenti,corpoDati);
     }
 }
 

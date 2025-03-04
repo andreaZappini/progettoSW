@@ -1,16 +1,19 @@
 import java.util.ArrayList;
 
-public class Luogo extends CorpoDati {
+public class Luogo{
     private String codiceLuogo; //chiave
     private String descrizione;
     private String collocazioneGeografica;
-    private ArrayList<TipoVisita> visita = new ArrayList<TipoVisita>();
+    private ArrayList<TipoVisita> visita;
 
-    public Luogo(String ambitoTerritoriale, int numeroMassimoIscrittiFruitore, Elenco<Luogo> elencoLuoghi, String codiceLuogo, String descrizione, String collocazioneGeografica, ArrayList<TipoVisita> visita) {
-        super(ambitoTerritoriale, numeroMassimoIscrittiFruitore, elencoLuoghi);
+    public Luogo(String codiceLuogo, String descrizione, String collocazioneGeografica) {
         this.codiceLuogo = codiceLuogo;
         this.descrizione = descrizione;
         this.collocazioneGeografica = collocazioneGeografica;
-        this.visita = visita;
+        this.visita = new ArrayList<>();
+    }
+
+    public String getCodiceLuogo() {
+        return this.codiceLuogo;
     }
 }
