@@ -3,7 +3,7 @@ import java.io.IOException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class CorpoDati{
+public class CorpoDati implements JSONSerializable {
     private String ambitoTerritoriale;
     private int numeroMassimoIscrittiFruitore;
     private Elenco<Luogo> elencoLuoghi;
@@ -34,10 +34,11 @@ public class CorpoDati{
         return this.elencoLuoghi;
     }
 
-    public void salvaSuJSON(String filePath) {
+    @Override
+    public void salvaSuJSON(File file) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            objectMapper.writeValue(new File(filePath), this);
+            objectMapper.writeValue(file, this);
             System.out.println("File JSON salvato correttamente in: " + filePath);
         } catch (IOException e) {
             e.printStackTrace();

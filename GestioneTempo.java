@@ -1,4 +1,7 @@
-public class GestioneTempo implements Runnable{
+import java.io.File;
+import java.io.IOException;
+
+public class GestioneTempo implements Runnable, JSONSerializable {
 
     private long start;
     
@@ -17,5 +20,15 @@ public class GestioneTempo implements Runnable{
         int giorno = ((int)SecToDay) % 30 + 1;
         int[] data = {mese, giorno};
         return data;
+    }
+    @Override
+    public void salvaSuJSON(File file) {
+       ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            objectMapper.writeValue(file, this);
+            System.out.println("File JSON salvato in: " + file.getAbsolutePath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
