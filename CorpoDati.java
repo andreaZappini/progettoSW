@@ -1,3 +1,8 @@
+import java.io.File;
+import java.io.IOException;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class CorpoDati{
     private String ambitoTerritoriale;
     private int numeroMassimoIscrittiFruitore;
@@ -25,6 +30,17 @@ public class CorpoDati{
         this.elencoLuoghi.aggiungi(l);
     }
 
+    public Elenco<Luogo> getElenco(){
+        return this.elencoLuoghi;
+    }
 
-
+    public void salvaSuJSON(String filePath) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            objectMapper.writeValue(new File(filePath), this);
+            System.out.println("File JSON salvato correttamente in: " + filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

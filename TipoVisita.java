@@ -1,4 +1,4 @@
-import java.time.LocalTime;
+
 import java.util.ArrayList;
 
 public class TipoVisita {
@@ -7,10 +7,10 @@ public class TipoVisita {
     private String descrizione;
     private String puntoIncontro;
     private String periodoAnno;
-    private ArrayList<String> giorniDisponibili;
-    private LocalTime oraInizio;
+    private ArrayList<Giorni> giorniDisponibili;
+    private double oraInizio;
     private int durata;
-    private boolean bigliettoNecessario;
+    private String bigliettoNecessario;
     private int minPartecipanti;
     private int maxPartecipanti;
     private Elenco<Volontario> elencoVolontari;
@@ -19,10 +19,10 @@ public class TipoVisita {
                         String descrizione, 
                         String puntoIncontro, 
                         String periodoAnno, 
-                        ArrayList<String> giorniDisponibili, 
-                        LocalTime oraInizio, 
+                        ArrayList<Giorni> giorniDisponibili, 
+                        double oraInizio, 
                         int durata, 
-                        boolean bigliettoNecessario, 
+                        String bigliettoNecessario, 
                         int minPartecipanti, 
                         int maxPartecipanti, 
                         Elenco<Volontario> elencoVolontari) {
@@ -39,5 +39,8 @@ public class TipoVisita {
         this.maxPartecipanti = maxPartecipanti;
         this.elencoVolontari = elencoVolontari;
     }
-    
+
+    public String getTitolo(){
+        return this.titolo;
+    }
 }

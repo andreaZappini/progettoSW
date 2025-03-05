@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>  
+<Utenti>
+    <configuratore> 
+        <username>mario</username>
+        <password>123456</password>
+    </configuratore>
+    <volontario>
+        <username>alberto</username>
+        <password>123456</password>
+    </volontario>
+</Utenti>

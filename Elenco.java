@@ -23,6 +23,19 @@ public class Elenco<T> {
         this.elenco.putAll(elenco.getElenco());
     }
 
+    //vedele se funge
+    @SuppressWarnings("hiding")
+    public <T extends Utente> Elenco<T> getClassiUtente(Class<T> tipo) {
+        Elenco<T> elencoUtenti = new Elenco<>();
+        for (String key : this.elenco.keySet()) {
+            Object obj = this.elenco.get(key);
+            if (tipo.isInstance(obj)) {
+                elencoUtenti.aggiungi(tipo.cast(obj));
+            }
+        }
+        return elencoUtenti;
+    }
+
     
     public void rimuovi(T elemento) {
         if(contiene(elemento.toString())) {

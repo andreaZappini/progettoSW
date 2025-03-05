@@ -19,10 +19,17 @@ public class XMLUtilities {
 
         NodeList lista = doc.getElementsByTagName(contesto);
 
-        for(int i = 0; i < lista.getLength(); i++){
-            Element elemento = (Element) lista.item(i);
-            T obj = parser.apply(elemento);
-            elenco.aggiungi(obj);
+        if (lista.getLength() > 0) {
+            Node nodoPadre = lista.item(0); // Dovrebbe esserci solo uno <Utenti>
+            NodeList figli = nodoPadre.getChildNodes();
+
+            for (int i = 0; i < figli.getLength(); i++) {
+                Node nodo = figli.item(i);
+                if (nodo.getNodeType() == Node.ELEMENT_NODE) {
+                    Element elemento = (Element) nodo;
+                    elenco.aggiungi(parser.apply(elemento)); // Usa la funzione per creare l'oggetto
+                }
+            }
         }
         return elenco;
     }
