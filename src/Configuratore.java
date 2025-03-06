@@ -6,5 +6,9 @@ public class Configuratore extends Utente{
         super(username, password);
 
         this.primoAccesso = true;
-    }   
+    } 
+    
+    public boolean getPrimoAccesso(){
+        return this.primoAccesso;
+    }
 }

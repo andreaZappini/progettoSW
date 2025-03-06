@@ -34,6 +34,7 @@ public class Luogo{
 
     public String toStringVisite(){
         StringBuffer s = new StringBuffer();
+        
         for(TipoVisita t : this.visite)
             s.append(t.getTitolo());
 

@@ -6,15 +6,7 @@ import org.w3c.dom.Element;
 
 public class Main {
     
-    public static void main(String[] args) throws Exception {
-
-        //gestione tempo e avvio thread
-        GestioneTempo gt = new GestioneTempo();
-        Thread t = new Thread(gt);
-        t.start();
-        gt.start();
-
-        
+    public static void main(String[] args) throws Exception {        
 
         Elenco<Utente> elencoUtenti = XMLUtilities.leggiXML(
             new File("fileXML/utenti.xml"), 
@@ -28,14 +20,38 @@ public class Main {
             elemento -> creaTipoVisita(elemento, elencoUtenti)
         );    
         
-        Elenco<Luogo> elencoLuogohi = XMLUtilities.leggiXML(
+        Elenco<Luogo> elencoLuoghi = XMLUtilities.leggiXML(
             new File ("fileXML/luoghi.xml"),
             "Luogo",
             elemento -> creaLuogo(elemento)
         );
-        CorpoDati corpoDati = null;
 
-        CLI.start(elencoUtenti,corpoDati, elencoTipiVisita);
+        String[] datiRipristino = new String[6];
+        datiRipristino = XMLUtilities.leggiXML(
+            new File("fileXML/datiExtra.xml"),
+            "datiDiConfigurazione"
+        );
+        CorpoDati corpoDati;
+        boolean primaConfigurazione = Boolean.parseBoolean(datiRipristino[0].trim());
+        if(!primaConfigurazione){
+            String ambitoTerritoriale = datiRipristino[1];
+            int numeroMaxIscritti = Integer.parseInt(datiRipristino[2]);
+            corpoDati = new CorpoDati(ambitoTerritoriale, numeroMaxIscritti);
+        }else{
+            corpoDati = null;
+        }
+        
+        long tempo = Long.parseLong(datiRipristino[3]);
+
+        corpoDati.ripristinaElenco(elencoLuoghi);
+
+        //gestione tempo e avvio thread
+        GestioneTempo gt = new GestioneTempo();
+        Thread t = new Thread(gt);
+        t.start();
+        gt.start(tempo);
+
+        CLI.start(elencoUtenti, corpoDati, elencoTipiVisita);
     }
 
     private static Luogo  creaLuogo(Element elemento){
@@ -92,7 +108,7 @@ public class Main {
             Utente u = elencoUtenti.getElementByKey(nomeVolontario);
             Volontario volontario = null;
             if(u instanceof Volontario)
-                volontario = (Volontario)u;
+                volontario = (Volontario) u;
             elencoVolontari.aggiungi(volontario);
         }
         return new TipoVisita(titolo, descrizione,

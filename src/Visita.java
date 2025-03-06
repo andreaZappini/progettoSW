@@ -16,7 +16,18 @@ public class Visita {
         return stato;
     }
 
-    //??
+    public String getData() {
+        return data;
+    }
+
+    public String getMese() {
+        return mese;
+    }
+
+    public TipoVisita getTipo() {
+        return tipo;
+    }
+
     public void cambiaStato(StatiVisita stato) {
        //TODO: implement
     }

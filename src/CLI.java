@@ -17,7 +17,7 @@ public class CLI {
             if(file.exists()){
                 Elenco<Utente> elencop = XMLUtilities.leggiXML(
                 file, 
-                "configuratore", 
+                "Utente", 
                 elemento -> {
                     String username = elemento.getElementsByTagName("username").item(0).getTextContent();
                     String password = elemento.getElementsByTagName("password").item(0).getTextContent();

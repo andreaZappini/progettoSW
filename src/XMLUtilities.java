@@ -34,6 +34,37 @@ public class XMLUtilities {
         return elenco;
     }
 
+    public static String[] leggiXML(File file, String contesto) throws Exception{
+
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document doc = builder.parse(file);
+        doc.getDocumentElement().normalize();
+        rimuoviNodiVuoti(doc);
+
+        NodeList lista = doc.getElementsByTagName(contesto);
+        if(lista.getLength() != 1)
+            throw new Exception("errore di configurazione");
+        
+        Node nodoPadre = lista.item(0);
+        NodeList figli = nodoPadre.getChildNodes();
+        System.out.println(figli);
+        System.out.println("lunghezza->" + figli.getLength());
+        String[] risultato = new String[figli.getLength()];
+
+        for (int i = 0; i < figli.getLength(); i++) {
+            Node nodo = figli.item(i);
+            if (nodo.getNodeType() == Node.ELEMENT_NODE) {
+                risultato[i] = nodo.getTextContent().trim();
+            }
+        }
+
+        for(String s : risultato)
+            if(s.isBlank())
+                System.out.println("null->" + s);
+        return risultato;
+    }
+
     public static void scriviXML(File file, Object o) throws Exception{
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();

@@ -43,4 +43,44 @@ public class TipoVisita {
     public String getTitolo(){
         return this.titolo;
     }
+
+    public String getDescrizione() {
+        return this.descrizione;
+    }
+
+    public String getPuntoIncontro() {
+        return this.puntoIncontro;
+    }
+
+    public String getPeriodoAnno() {
+        return this.periodoAnno;
+    }
+
+    public ArrayList<Giorni> getGiorniDisponibili() {
+        return this.giorniDisponibili;
+    }
+
+    public double getOraInizio() {
+        return this.oraInizio;
+    }
+
+    public int getDurata() {
+        return this.durata;
+    }
+
+    public String getBigliettoNecessario() {
+        return this.bigliettoNecessario;
+    }
+
+    public int getMinPartecipanti() {
+        return this.minPartecipanti;
+    }
+
+    public int getMaxPartecipanti() {
+        return this.maxPartecipanti;
+    }
+
+    public Elenco<Volontario> getElencoVolontari() {
+        return this.elencoVolontari;
+    }
 }
