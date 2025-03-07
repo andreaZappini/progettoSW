@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <datiExtra>
     <datiDiConfigurazione>
-        <primaConfigurazione>true</primaConfigurazione>
-        <ambitoTerritoriale>DaCOnfigurare</ambitoTerritoriale>
-        <numeroMassimoIscritti>0</numeroMassimoIscritti>
+        <primaConfigurazione>false</primaConfigurazione>
+        <ambitoTerritoriale>Montagna</ambitoTerritoriale>
+        <numeroMassimoIscritti>5</numeroMassimoIscritti>
         <tempo>1741260669150</tempo>
     </datiDiConfigurazione>
 </datiExtra>

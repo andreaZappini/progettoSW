@@ -1,13 +1,15 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>  
-<Utenti>
-    <Configuratore>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Utente>
+    <configuratore>
         <username>configuratore1</username>
         <password>123456</password>
         <primoAccesso>false</primoAccesso>
-    </Configuratore>
-    <Volontario>
+    </configuratore>
+    <volontario>
         <username>Matteo Rossi</username>
         <password>123456</password>
         <primoAccesso>false</primoAccesso>
-    </Volontario>
-</Utenti>
+    </volontario>
+</Utente>
+
+

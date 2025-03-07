@@ -10,20 +10,24 @@ public class Main {
 
         Elenco<Utente> elencoUtenti = XMLUtilities.leggiXML(
             new File("fileXML/utenti.xml"), 
-            "Utente", 
+            "Utenti", 
             elemento -> creaUtente(elemento)
         );
+
+        //funziona
+        //System.out.println(elencoUtenti.visualizza());
         
         Elenco<TipoVisita> elencoTipiVisita = XMLUtilities.leggiXML(
-            new File("fileXML/TipiVisita.xml"), 
-            "TipoVisita", 
+            new File("fileXML/tipiVisita.xml"), 
+            "TipiVisita", 
             elemento -> creaTipoVisita(elemento, elencoUtenti)
-        );    
+        );
+        System.out.println(elencoTipiVisita.visualizza());
         
         Elenco<Luogo> elencoLuoghi = XMLUtilities.leggiXML(
             new File ("fileXML/luoghi.xml"),
-            "Luogo",
-            elemento -> creaLuogo(elemento)
+            "Luoghi",
+            elemento -> creaLuogo(elemento, elencoTipiVisita)
         );
 
         String[] datiRipristino = new String[6];
@@ -37,14 +41,14 @@ public class Main {
             String ambitoTerritoriale = datiRipristino[1];
             int numeroMaxIscritti = Integer.parseInt(datiRipristino[2]);
             corpoDati = new CorpoDati(ambitoTerritoriale, numeroMaxIscritti);
+            corpoDati.ripristinaElenco(elencoLuoghi);
         }else{
             corpoDati = null;
         }
         
         long tempo = Long.parseLong(datiRipristino[3]);
 
-        corpoDati.ripristinaElenco(elencoLuoghi);
-
+        
         //gestione tempo e avvio thread
         GestioneTempo gt = new GestioneTempo();
         Thread t = new Thread(gt);
@@ -54,12 +58,28 @@ public class Main {
         CLI.start(elencoUtenti, corpoDati, elencoTipiVisita);
     }
 
-    private static Luogo  creaLuogo(Element elemento){
+    private static Luogo  creaLuogo(Element elemento, Elenco<TipoVisita> visite){
         String codiceLuogo = elemento.getElementsByTagName("codiceLuogo").item(0).getTextContent();
         String descrizione = elemento.getElementsByTagName("descrizione").item(0).getTextContent();
         String collocazioneGeografica = elemento.getElementsByTagName("collocazioneGeografica").item(0).getTextContent();
 
-        return new Luogo(codiceLuogo, descrizione, collocazioneGeografica);
+        Luogo l = new Luogo(codiceLuogo, descrizione, collocazioneGeografica);
+
+        Elenco<TipoVisita> elencoTipoVisita = new Elenco<>();
+
+        NodeList visiteNodes = elemento.getElementsByTagName("visite");
+        for (int i = 0; i < visiteNodes.getLength(); i++) {
+            String nomeVisita = visiteNodes.item(i).getTextContent().trim();
+            //funziona
+            //System.out.println(nomeVisita);
+            TipoVisita t = visite.getElementByKey(nomeVisita);
+            //stampa null
+            System.out.println("visita: " + t);
+            elencoTipoVisita.aggiungi(t);
+            l.aggiungiAElencoVisite(t);
+        }
+
+        return l;
     }
 
     private static Utente creaUtente(Element elemento){
@@ -77,9 +97,10 @@ public class Main {
     }
 
     private static TipoVisita creaTipoVisita(Element elemento, Elenco<Utente> elencoUtenti){
-        String titolo = elemento.getElementsByTagName("titolo").item(0).getTextContent();
+
+        String titolo = elemento.getElementsByTagName("titolo").item(0).getTextContent(); 
         String descrizione = elemento.getElementsByTagName("descrizione").item(0).getTextContent();
-        String puntoIncontro = elemento.getElementsByTagName("PuntoIncontro").item(0).getTextContent();
+        String puntoIncontro = elemento.getElementsByTagName("puntoIncontro").item(0).getTextContent();
         String periodoAnno = elemento.getElementsByTagName("periodoAnno").item(0).getTextContent();
         String bigliettoNecessario = elemento.getElementsByTagName("bigliettoNecessario").item(0).getTextContent();
         ArrayList<Giorni> giorniDisponibili = new ArrayList<>();
@@ -109,6 +130,8 @@ public class Main {
             Volontario volontario = null;
             if(u instanceof Volontario)
                 volontario = (Volontario) u;
+                //funziona
+                //System.out.println(volontario);
             elencoVolontari.aggiungi(volontario);
         }
         return new TipoVisita(titolo, descrizione,

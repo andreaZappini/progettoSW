@@ -73,9 +73,9 @@ public class CLI {
         int tentativi = 3;
         while(tentativi > 0){
             System.out.println("username:");
-            username = in.next();
+            username = in.nextLine();;
             System.out.println("password:");
-            password = in.next();
+            password = in.nextLine();;
 
             if(!elencoUtenti.contiene(username)){
                 System.out.println("Utente non trovato");
@@ -86,6 +86,7 @@ public class CLI {
                     System.out.println("Accesso consentito");
                     if(x.getPrimoAccesso()){
                         cambiaPSW(in, x);
+                        x.setPrimoAccesso();
                     }
                 }
                 break;
@@ -101,16 +102,16 @@ public class CLI {
     private static void cambiaPSW(Scanner in, Utente x) {
         System.out.println("Primo accesso, modifica password");
         System.out.println("Nuova password:");
-        String nuovaPassword = in.next();
+        String nuovaPassword = in.nextLine();;
         x.setPassword(nuovaPassword);
         x.setPrimoAccesso();
     }
 
     private static void aggiungiConfiguratore(Scanner in, Elenco<Utente> elencoUtenti){
         System.out.println("Inserisci username:");
-        String username = in.next();
+        String username = in.nextLine();;
         System.out.println("Inserisci password:");
-        String password = in.next();
+        String password = in.nextLine();;
         Utente c = new Configuratore(username, password);
         elencoUtenti.aggiungi(c);
 
@@ -131,6 +132,7 @@ public class CLI {
             System.out.println("8. Chiudi applicazione");
             System.out.println("Scelta:");
             int scelta = in.nextInt();
+            in.nextLine();
             switch (scelta) {
                 case 1:
                     aggiungiConfiguratore(in, elencoUtenti);
@@ -141,20 +143,21 @@ public class CLI {
                 case 3:
                     System.out.println("indicare nuovo numero massimo di iscritti per persona: ");
                     int iscrittiMax = in.nextInt();
+                    in.nextLine();
                     c.setNumeroMassimoIscrittiFruitore(iscrittiMax);
                     break;
                 case 4:
                     Elenco<Volontario> elencoVolontari = elencoUtenti.getClassiUtente(Volontario.class);
-                    elencoVolontari.visualizza();
+                    System.out.println(elencoVolontari.visualizza());
                     break;
                 case 5:
-                    c.getElenco().visualizza();
+                    System.out.println(c.getElenco().visualizza());
                     break;
                 case 6:
                     System.out.println("scegli il luogo di cui vuoi vedere le visite: ");
-                    c.getElenco().visualizza();
-                    String risposta = in.next();
-                    c.getElenco().getElementByKey(risposta).toStringVisite();
+                    System.out.println(c.getElenco().visualizza());
+                    String risposta = in.nextLine();;
+                    System.out.println(c.getElenco().getElementByKey(risposta).toStringVisite());
                 case 7:
                     continua = false;
                     break;
@@ -170,14 +173,15 @@ public class CLI {
 
     private static void creazioneCorpoDati(Scanner in, CorpoDati c, Elenco<TipoVisita> elencoTipiVisita, Elenco<Utente> elencoUtenti) {
         System.out.println("Inserisci ambito territoriale:");
-        String ambitoTerritoriale = in.next();
+        String ambitoTerritoriale = in.nextLine();
         System.out.println("Inserisci numero massimo iscritti per ogni fruitore:");
         int numeroMassimoIscrittiFruitore = in.nextInt();
+        in.nextLine();
         c = new CorpoDati(ambitoTerritoriale, numeroMassimoIscrittiFruitore);
         do{
             aggiungiLuogo(in, c, elencoTipiVisita, elencoUtenti);
             System.out.println("Vuoi inserire un altro luogo? (s/n)");
-            String risposta = in.next();
+            String risposta = in.nextLine();;
             if(!risposta.equals("s")){
                 break;
             }
@@ -191,20 +195,20 @@ public class CLI {
             creaTipoVisita(elencoUtenti, elencoTipiVisita, in, c);
         }
         System.out.println("codice: ");
-        String codiceLuogo = in.next();
+        String codiceLuogo = in.nextLine();;
         System.out.println("descrizione: ");
-        String descrizione = in.next();
+        String descrizione = in.nextLine();;
         System.out.println("collocazione geografica: ");
-        String collocazioneGeografica = in.next();
+        String collocazioneGeografica = in.nextLine();;
         Luogo l = new Luogo(codiceLuogo, descrizione, collocazioneGeografica);
         System.out.println("aggiungi almeno un tipo di visita");
         boolean continua = true;
         do{
             elencoTipiVisita.visualizza();
-            String visita = in.next();
+            String visita = in.nextLine();;
             l.aggiungiAElencoVisite(elencoTipiVisita.getElementByKey(visita));
             System.out.println("vuoi aggiungere altre visite? (y per continuare)");
-            String risposta = in.next();
+            String risposta = in.nextLine();;
             if(!risposta.equalsIgnoreCase("y"))
                 continua = false;
         }while(continua);
@@ -215,50 +219,54 @@ public class CLI {
     private static void creaTipoVisita(Elenco<Utente> elencoUtenti, 
                                         Elenco<TipoVisita> elencoTipiVisita, 
                                         Scanner in, CorpoDati c) {
-        Elenco<Volontario> elencoVolontari = elencoUtenti.getClassiUtente(Volontario.class);
-        if(elencoVolontari.getElenco().size() == 0){
+        if(elencoUtenti.getClassiUtente(Volontario.class).getElenco().size() == 0){
             System.out.println("Prima deve esistere almeno un volontario");
             aggiungiVolontario(elencoUtenti, in);
         }
         System.out.println("Inserisci titolo:");
-        String titolo = in.next();
+        String titolo = in.nextLine();;
         System.out.println("Inserisci descrizione:");
-        String descrizione = in.next();
+        String descrizione = in.nextLine();;
         System.out.println("Inserisci punto di incontro:");
-        String puntoIncontro = in.next();
+        String puntoIncontro = in.nextLine();;
         System.out.println("Inserisci periodo dell'anno:");
-        String periodoAnno = in.next();
+        String periodoAnno = in.nextLine();;
         System.out.println("Inserisci giorni disponibili:");
         ArrayList<Giorni> giorniDisponibili = new ArrayList<>();
         Boolean continua = true;
         do{
-            String gg = in.next();
+            String gg = in.nextLine();;
             giorniDisponibili.add(Giorni.fromString(gg.toLowerCase()));
             System.out.println("vuoi aggiungere altri giorni? (y per continuare)");
-            String risposta = in.next();
+            String risposta = in.nextLine();;
             if(!risposta.equalsIgnoreCase("y"))
                 continua = false;
         }while(continua);
         
         System.out.println("Inserisci ora di inizio:");
         double oraInizio = in.nextDouble();
+        in.nextLine();
         System.out.println("Inserisci durata(minuti):");
         int durata = in.nextInt();
+        in.nextLine();
         System.out.println("Biglietto necessario? (si/no)");
-        String bigliettoNecessario = in.next();
+        String bigliettoNecessario = in.nextLine();;
         System.out.println("numero minimo di partecipanti:");
         int minPartecipanti = in.nextInt();
+        in.nextLine();
         System.out.println("numero massimo di partecipanti:");
         int maxPartecipanti = in.nextInt();
+        in.nextLine();
         Elenco<Volontario> elencoVolontariVisita = new Elenco<>();
+        Elenco<Volontario> elencoVolontari = elencoUtenti.getClassiUtente(Volontario.class);
         continua = true;
         do{
             System.out.println("aggiungi almeno un volontario:");
             elencoVolontari.visualizza();
-            String volonario = in.next();
+            String volonario = in.nextLine();;
             elencoVolontariVisita.aggiungi(elencoVolontari.getElementByKey(volonario));
             System.out.println("vuoi aggiungere un altro volontario??(y per continuare)");
-            String risposta = in.next();
+            String risposta = in.nextLine();;
             if(!risposta.equalsIgnoreCase("y"))
                 continua = false;
         }while(continua);
@@ -274,9 +282,9 @@ public class CLI {
 
     private static void aggiungiVolontario(Elenco<Utente> elencoUtenti, Scanner in) {
         System.out.println("Inserisci username:");
-        String username = in.next();
+        String username = in.nextLine();;
         System.out.println("Inserisci password:");
-        String password = in.next();
+        String password = in.nextLine();;
         Utente v = new Volontario(username, password);
         elencoUtenti.aggiungi(v);
     }

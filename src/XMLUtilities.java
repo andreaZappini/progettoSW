@@ -48,8 +48,6 @@ public class XMLUtilities {
         
         Node nodoPadre = lista.item(0);
         NodeList figli = nodoPadre.getChildNodes();
-        System.out.println(figli);
-        System.out.println("lunghezza->" + figli.getLength());
         String[] risultato = new String[figli.getLength()];
 
         for (int i = 0; i < figli.getLength(); i++) {

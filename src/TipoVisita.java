@@ -83,4 +83,9 @@ public class TipoVisita {
     public Elenco<Volontario> getElencoVolontari() {
         return this.elencoVolontari;
     }
+
+    @Override
+    public String toString(){
+        return this.titolo;
+    }
 }

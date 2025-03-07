@@ -4,13 +4,13 @@ public class Luogo{
     private String codiceLuogo; //chiave
     private String descrizione;
     private String collocazioneGeografica;
-    private ArrayList<TipoVisita> visite;
+    private Elenco<TipoVisita> visite;
 
     public Luogo(String codiceLuogo, String descrizione, String collocazioneGeografica) {
         this.codiceLuogo = codiceLuogo;
         this.descrizione = descrizione;
         this.collocazioneGeografica = collocazioneGeografica;
-        this.visite = new ArrayList<>();
+        this.visite = new Elenco<>();
     }
 
     public String getCodiceLuogo() {
@@ -26,18 +26,15 @@ public class Luogo{
     }
 
     public void aggiungiAElencoVisite(TipoVisita v){
-        if(!visite.contains(v))
-            this.visite.add(v);
-        else
-            throw new IllegalArgumentException("Tipo di visita gia' presente");
+       this.visite.aggiungi(v);
     }
 
     public String toStringVisite(){
-        StringBuffer s = new StringBuffer();
-        
-        for(TipoVisita t : this.visite)
-            s.append(t.getTitolo());
+        return this.visite.toString();
+    }
 
-        return s.toString();
+    @Override
+    public String toString(){
+        return this.codiceLuogo;
     }
 }

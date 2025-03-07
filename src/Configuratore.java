@@ -11,4 +11,8 @@ public class Configuratore extends Utente{
     public boolean getPrimoAccesso(){
         return this.primoAccesso;
     }
+
+    public void setPrimoAccesso(){
+        this.primoAccesso = false;
+    }
 }
