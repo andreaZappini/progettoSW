@@ -1,9 +1,17 @@
 import java.io.File;
+import java.io.FileOutputStream;
 import java.lang.reflect.Field;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.function.Function;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.*;
 
@@ -56,35 +64,84 @@ public class XMLUtilities {
                 risultato[i] = nodo.getTextContent().trim();
             }
         }
-
-        for(String s : risultato)
-            if(s.isBlank())
-                System.out.println("null->" + s);
         return risultato;
     }
 
-    public static void scriviXML(File file, Object o) throws Exception{
+    public static <T> void scriviXML( File file, Elenco<T> elencoOggetti,String rootElementName) throws Exception {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.parse(file);
-        doc.getDocumentElement().normalize();
-        rimuoviNodiVuoti(doc);
+        Document doc = builder.newDocument();
+        HashMap<String, T> hashMap = elencoOggetti.getElenco();
 
-        String nomeClasse = o.getClass().getSimpleName();
-        Element elemento = doc.createElement(nomeClasse);
+        // Creazione del nodo radice
+        Element rootElement = doc.createElement(rootElementName);
+        System.out.println("rootElement: " + rootElement);
+        doc.appendChild(rootElement);
 
-        for(int i = 0; i < o.getClass().getDeclaredFields().length; i++){
-            Field f = o.getClass().getDeclaredFields()[i];
-            f.setAccessible(true);
-            Element campo = doc.createElement(f.getName());
-            campo.appendChild(doc.createTextNode(f.get(o).toString()));
-            elemento.appendChild(campo);
+        // Iteriamo sugli oggetti nella HashMap
+        for (String key : hashMap.keySet()) {
+            T oggetto = hashMap.get(key);
+            Element objectElement = doc.createElement(oggetto.getClass().getSimpleName().toString());
+            rootElement.appendChild(objectElement);
+
+            System.out.println(oggetto.getClass());
+            System.out.println(oggetto.getClass().getDeclaredFields());
+
+            // Analizziamo i campi della classe con Reflection
+            for (Field field : oggetto.getClass().getDeclaredFields()) {
+                field.setAccessible(true);
+                System.out.println("field: " + field);
+                Object valoreCampo = field.get(oggetto);
+                System.out.println("oggetto: " + valoreCampo);
+
+                if (valoreCampo != null) {
+                    // Se il campo è un `ArrayList<T>` (Collection)
+                    if (valoreCampo instanceof Collection) {
+                        Element listaElement = doc.createElement(field.getName());
+                        for (Object item : (Collection<?>) valoreCampo) {
+                            Element itemElement = doc.createElement(field.getName().substring(0, field.getName().length() - 1));
+                            itemElement.appendChild(doc.createTextNode(item.toString()));
+                            listaElement.appendChild(itemElement);
+                        }
+                        objectElement.appendChild(listaElement);
+                    }
+                    // Se il campo è un `Elenco<T>` (gestito separatamente)
+                    else if (valoreCampo instanceof Elenco) {
+                        Element elencoElement = doc.createElement(field.getName());
+                        Elenco<?> elenco = (Elenco<?>) valoreCampo;
+
+                        for (String subKey : elenco.getElenco().keySet()) {
+                            Object subElemento = elenco.getElementByKey(subKey);
+
+                            Element subElement = doc.createElement(field.getName().substring(0, field.getName().length() - 1));
+                            subElement.appendChild(doc.createTextNode(subElemento.toString()));
+                            elencoElement.appendChild(subElement);
+                        }
+                        objectElement.appendChild(elencoElement);
+                    }
+                    // Se è un campo semplice
+                    else {
+                        Element campoElement = doc.createElement(field.getName());
+                        campoElement.appendChild(doc.createTextNode(valoreCampo.toString()));
+                        objectElement.appendChild(campoElement);
+                    }
+                }
+            }
         }
 
-    }
+        // Scrittura del file XML
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 
-    public static void modificaXML(File file, String[] dati){
-        //TODO
+        try (FileOutputStream outputStream = new FileOutputStream(file)) {
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(outputStream);
+            transformer.transform(source, result);
+        }
+
+        System.out.println("File XML scritto con successo: " + file.getName());
     }
 
     private static void rimuoviNodiVuoti(Node doc) {

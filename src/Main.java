@@ -58,6 +58,17 @@ public class Main {
         CLI.start(elencoUtenti, corpoDati, elencoTipiVisita);
     }
 
+    public static void salvataggioDati(Elenco<Utente> elencoUtenti, Elenco<TipoVisita> elencoTipiVisita, CorpoDati corpoDati) throws Exception{
+        XMLUtilities.scriviXML(
+            new File("fileXML/utentibu.xml"), elencoUtenti, "Utente");
+
+        XMLUtilities.scriviXML(
+            new File("fileXML/tipiVisitabu.xml"), elencoTipiVisita, "TipiVisita");
+
+        XMLUtilities.scriviXML(
+            new File("fileXML/luoghibu.xml"), corpoDati.getElenco(), "Luoghi");
+    }
+
     private static Luogo  creaLuogo(Element elemento, Elenco<TipoVisita> visite){
         String codiceLuogo = elemento.getElementsByTagName("codiceLuogo").item(0).getTextContent();
         String descrizione = elemento.getElementsByTagName("descrizione").item(0).getTextContent();
@@ -86,11 +97,12 @@ public class Main {
         String nomeNodo = elemento.getNodeName(); // Configuratore o Volontario
         String username = elemento.getElementsByTagName("username").item(0).getTextContent();
         String password = elemento.getElementsByTagName("password").item(0).getTextContent();
+        boolean primoAccesso = Boolean.parseBoolean(elemento.getElementsByTagName("primoAccesso").item(0).getTextContent());
     
         if (nomeNodo.equalsIgnoreCase("Configuratore")) {
-            return new Configuratore(username, password);
+            return new Configuratore(username, password, primoAccesso);
         } else if (nomeNodo.equalsIgnoreCase("Volontario")) {
-            return new Volontario(username, password);
+            return new Volontario(username, password, primoAccesso);
         } else {
             throw new IllegalArgumentException("Tipo di utente sconosciuto: " + nomeNodo);
         }

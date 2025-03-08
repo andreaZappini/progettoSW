@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class Luogo{
     private String codiceLuogo; //chiave
     private String descrizione;

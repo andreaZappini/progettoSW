@@ -48,6 +48,7 @@ public class CLI {
                 }
             }
             in.close();
+            Main.salvataggioDati(elencoUtenti, elencoTipiVisita, c);
         }catch(Exception e){
             e.printStackTrace();
         }   

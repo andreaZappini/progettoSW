@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Luoghi>
+    <Luogo>
+        <codiceLuogo>luogo1</codiceLuogo>
+        <descrizione>Descrizione luogo 1</descrizione>
+        <collocazioneGeografica>Collocazione geografica luogo 1</collocazioneGeografica>
+        <visite>
+            <visit>viaggio</visit>
+        </visite>
+    </Luogo>
+</Luoghi>
