@@ -25,7 +25,7 @@ public class CorpoDati{
         this.elencoLuoghi.aggiungi(l);
     }
 
-    public Elenco<Luogo> getElenco(){
+    public Elenco<Luogo> getElencoLuoghi(){
         return this.elencoLuoghi;
     }
 

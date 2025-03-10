@@ -112,7 +112,7 @@ public class XMLUtilities {
 
                         for (String subKey : elenco.getElenco().keySet()) {
                             Object subElemento = elenco.getElementByKey(subKey);
-
+                            System.out.println("subElemento: " + subElemento);
                             Element subElement = doc.createElement(field.getName().substring(0, field.getName().length() - 1));
                             subElement.appendChild(doc.createTextNode(subElemento.toString()));
                             elencoElement.appendChild(subElement);

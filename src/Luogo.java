@@ -28,7 +28,15 @@ public class Luogo{
     }
 
     public String toStringVisite(){
-        return this.visite.toString();
+        StringBuffer s = new StringBuffer();
+        for (String k : this.visite.getElenco().keySet()){
+            s.append(this.visite.getElementByKey(k) + "\n");
+        }
+        return s.toString();
+    }
+
+    public Elenco<TipoVisita> getElencoVisite(){
+        return this.visite;
     }
 
     @Override
