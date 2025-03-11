@@ -157,7 +157,8 @@ public class Controller{
         corpoDati.aggiungiLuogo(l);
         String s = null;
         do{
-            s = CLI.sceltaString("insersci un tipo di visita: (x per uscire)");
+            CLI.stampaMessaggio("scegli un tipo di visita: (x per uscire)");
+            s = CLI.sceltaString(elencoTipiVisita.visualizza());
             if(!s.equals("x")){
                 l.getElencoVisite().aggiungi(elencoTipiVisita.getElementByKey(s));
             }
