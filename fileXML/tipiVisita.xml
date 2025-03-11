@@ -1,3 +1,20 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>  
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <TipiVisita>
+    <TipoVisita>
+        <titolo>viaggio</titolo>
+        <descrizione>d</descrizione>
+        <puntoIncontro>p</puntoIncontro>
+        <periodoAnno>p</periodoAnno>
+        <giorniDisponibili>
+            <elemento>LUNEDI</elemento>
+        </giorniDisponibili>
+        <oraInizio>1.0</oraInizio>
+        <durata>1</durata>
+        <bigliettoNecessario>si</bigliettoNecessario>
+        <minPartecipanti>1</minPartecipanti>
+        <maxPartecipanti>2</maxPartecipanti>
+        <elencoVolontari>
+            <elemento>v</elemento>
+        </elencoVolontari>
+    </TipoVisita>
 </TipiVisita>

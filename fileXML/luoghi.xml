@@ -1,3 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Luoghi>
+    <Luogo>
+        <codiceLuogo>cl1</codiceLuogo>
+        <descrizione>d</descrizione>
+        <collocazioneGeografica>cg</collocazioneGeografica>
+        <visite/>
+    </Luogo>
 </Luoghi>

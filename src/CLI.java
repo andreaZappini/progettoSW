@@ -81,7 +81,12 @@ public class CLI {
         return scelta;
     }
 
-    public static <T> void visualizzaElenco(String elenco){
-        
+    public static String[] messaggioCreazione(String[] msg){
+        String[] res = new String[msg.length];
+        for(int i = 0; i < msg.length; i++){
+            System.out.println(msg[i]);
+            res[i] = in.nextLine();
+        }
+        return res;
     }
 }

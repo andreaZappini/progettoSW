@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Utente>
     <Volontario>
-        <primoAccesso>false</primoAccesso>
+        <primoAccesso>true</primoAccesso>
     </Volontario>
     <Configuratore>
         <primoAccesso>false</primoAccesso>

@@ -1,15 +1,12 @@
 ;public class GestioneTempo implements Runnable{
 
-    private long start;
+    private long inizioDeiTempi = 1741260669150L;
     
     public void run(){}
-    public void start(long start){
-        this.start = start;
-    }
 
     //return del tipo data[0] = mese, data[1] = giorno
     public int[] giorno(){
-        long tempTrascorso = System.currentTimeMillis() - this.start;
+        long tempTrascorso = System.currentTimeMillis() - inizioDeiTempi;
         long millisToSec = tempTrascorso / 1000;
         long secToDay = millisToSec / 10; //un giorno dura 10 secondi
         int mese = (int)((secToDay / 30) % 12) + 1;

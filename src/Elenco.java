@@ -61,7 +61,6 @@ public class Elenco<T> {
        
         StringBuffer s = new StringBuffer();
         for (String key : this.elenco.keySet()) {
-            System.out.println(this.elenco.get(key).toString());
             s.append(this.elenco.get(key).toString());
             s.append("\n");
         }

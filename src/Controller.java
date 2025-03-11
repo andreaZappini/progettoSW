@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public class Model{
+public class Controller{
 
     private static final String AZIONI_CONFIGURATORE = "Benvenuto Configuratore\n" +
                                                         "1. Aggiungi Configuratore\n" +
@@ -19,6 +19,24 @@ public class Model{
                                                         
     private static final String AZIONI_VOLONTARIO = "";
     private static final String AZIONI_UTENTE = "";
+
+    private static final String[] CREAZIONE_LUOGO = {
+        "codice luogo",
+        "descrizione",
+        "collocazione geografica"
+    };
+
+    private static final String[] CREAZIONE_VISITA = {
+        "titolo",
+        "descrizione",
+        "punto incontro",
+        "periodo anno",
+        "ora inizio",
+        "durata",
+        "biglietto necessario",
+        "min partecipanti",
+        "max partecipanti"
+    };
     private static CorpoDati corpoDati;
     private static Elenco<Utente> elencoUtenti = new Elenco<>();
     private static Elenco<Luogo> elencoLuoghi = new Elenco<>();
@@ -27,13 +45,14 @@ public class Model{
 
     public static void start() throws Exception{
         
-        String[] datiRipristino = new String[4];
+        String[] datiRipristino = new String[3];
         datiRipristino = XMLUtilities.leggiXML(
             new File("fileXML/datiExtra.xml"),
             "datiDiConfigurazione"
         );
 
         boolean primaConfigurazione = Boolean.parseBoolean(datiRipristino[0].trim());
+        System.out.println(primaConfigurazione);
         if(!primaConfigurazione){
             String ambitoTerritoriale = datiRipristino[1];
             int numeroMaxIscritti = Integer.parseInt(datiRipristino[2]);
@@ -68,6 +87,7 @@ public class Model{
             }
             String[] datiCorpoDati = CLI.creaCorpoDati();
             corpoDati = new CorpoDati(datiCorpoDati[0], Integer.parseInt(datiCorpoDati[1]));
+            creaLuogo();
         }
 
         working = true;
@@ -121,6 +141,87 @@ public class Model{
         salvataggioDati();
     }
 
+    private static void creaLuogo(){
+        if(elencoTipiVisita.getElenco().size() == 0){
+            CLI.stampaMessaggio("prima deve esistere almeno un tipo di visita");
+            creaTipoVisita();
+        }
+
+        String[] datiLuogo = CLI.messaggioCreazione(CREAZIONE_LUOGO);
+
+        String codiceLuogo = datiLuogo[0];
+        String descrizione = datiLuogo[1];
+        String collocazione = datiLuogo[2];
+
+        Luogo l = new Luogo(codiceLuogo, descrizione, collocazione);
+        corpoDati.aggiungiLuogo(l);
+        String s = null;
+        do{
+            s = CLI.sceltaString("insersci un tipo di visita: (x per uscire)");
+            if(!s.equals("x")){
+                l.getElencoVisite().aggiungi(elencoTipiVisita.getElementByKey(s));
+            }
+        }while(!s.equals("x"));
+    }
+
+    private static void creaTipoVisita(){
+        if(elencoUtenti.getClassiUtente(Volontario.class).getElenco().size() == 0){
+            CLI.stampaMessaggio("prima deve esserci almeno un volontario");
+            creaVolontario();
+        }
+
+        String[] datiLuogo = CLI.messaggioCreazione(CREAZIONE_VISITA);
+
+        String titolo = datiLuogo[0];
+        String descrizione = datiLuogo[1];
+        String puntoIncontro = datiLuogo[2];
+        String periodoAnno = datiLuogo[3];
+        double oraInizio = Double.parseDouble(datiLuogo[4]);
+        int durata = Integer.parseInt(datiLuogo[5]);
+        String bigliettoNecessario = datiLuogo[6];
+        int  minPartecipanti = Integer.parseInt(datiLuogo[7]);
+        int  maxPartecipanti = Integer.parseInt(datiLuogo[8]);
+
+        ArrayList<Giorni> giorniDisponibili = new ArrayList<>();
+        String s = null;
+        do{
+            s = CLI.sceltaString("insersci un giorno: (x per uscire)");
+            if(!s.equals("x")){
+                giorniDisponibili.add(Giorni.fromString(s.toLowerCase()));
+            }
+        }while(!s.equals("x"));
+
+        Elenco<Volontario> elencoV = new Elenco<>();
+
+        s = null;
+        do{
+            CLI.stampaMessaggio("scegli volontario: (x per uscire)");
+            s = CLI.sceltaString(elencoUtenti.getClassiUtente(Volontario.class).visualizza());
+            if(!s.equals("x")){
+                elencoV.aggiungi((Volontario)elencoUtenti.getElementByKey(s));
+            }
+        }while(!s.equals("x"));
+
+        TipoVisita tv = new TipoVisita(titolo, descrizione,
+                                puntoIncontro, periodoAnno, 
+                                giorniDisponibili, oraInizio, 
+                                durata, bigliettoNecessario,
+                                minPartecipanti, maxPartecipanti, 
+                                elencoV);
+
+        elencoTipiVisita.aggiungi(tv);
+    }
+
+    private static void creaVolontario(){
+
+        String[] dati = CLI.login();
+
+        String username = dati[0];
+        String password = dati[1];
+        Utente x = new Volontario(username, password);
+        elencoUtenti.aggiungi(x);
+    }
+
     private static void datiPrimoConfiguratore() throws Exception{
         Elenco<Utente> elencop = XMLUtilities.leggiXML(
                 new File("fileXML/configuratore1.xml"), 
@@ -128,9 +229,9 @@ public class Model{
                 elemento -> {
                     String username = elemento.getElementsByTagName("username").item(0).getTextContent();
                     String password = elemento.getElementsByTagName("password").item(0).getTextContent();
-                    //boolean primoAccesso = Boolean.parseBoolean(
-                        //elemento.getElementsByTagName("primoAccesso").item(0).getTextContent());
-                    return new Configuratore(username, password);
+                    boolean primoAccesso = Boolean.parseBoolean(
+                        elemento.getElementsByTagName("primoAccesso").item(0).getTextContent());
+                    return new Configuratore(username, password, primoAccesso);
                 });
                 elencoUtenti.aggiungi(elencop);
     }
@@ -143,9 +244,11 @@ public class Model{
             elemento -> creaUtente(elemento)
         );
 
+        System.out.println(elencoUtenti.visualizza());
+
         elencoTipiVisita = XMLUtilities.leggiXML(
             new File("fileXML/tipiVisita.xml"), 
-            "TipiVisita", 
+            "TipoVisita", 
             elemento -> creaTipoVisita(elemento, elencoUtenti)
         );
 
@@ -253,10 +356,10 @@ public class Model{
                 cambiaNumeroMassimoIscritti();
                 break;
             case 4:
-                CLI.visualizzaElenco(elencoUtenti.getClassiUtente(Volontario.class).visualizza());
+                CLI.stampaMessaggio(elencoUtenti.getClassiUtente(Volontario.class).visualizza());
                 break;
             case 5:
-                CLI.visualizzaElenco(corpoDati.getElencoLuoghi().visualizza());
+                CLI.stampaMessaggio(corpoDati.getElencoLuoghi().visualizza());
                 break;
             case 6:
                 visualizzaVisiteLuogo();
@@ -289,19 +392,25 @@ public class Model{
 
     private static void visualizzaVisiteLuogo(){
         CLI.stampaMessaggio("ecco i luoghi dei quali puoi vedere le visite: ");
-        CLI.visualizzaElenco(corpoDati.getElencoLuoghi().visualizza());
+        CLI.stampaMessaggio(corpoDati.getElencoLuoghi().visualizza());
         String scetla = CLI.sceltaString("scegli il luogo -> ");
-        CLI.visualizzaElenco(elencoLuoghi.getElementByKey(scetla).getElencoVisite().visualizza());
+        CLI.stampaMessaggio(corpoDati.getElencoLuoghi().getElementByKey(scetla).getElencoVisite().visualizza());
     }
 
     public static void salvataggioDati() throws Exception{
         XMLUtilities.scriviXML(
-            new File("fileXML/utentibu.xml"), elencoUtenti, "Utente");
+            new File("fileXML/utenti.xml"), elencoUtenti, "Utente");
 
         XMLUtilities.scriviXML(
-            new File("fileXML/tipiVisitabu.xml"), elencoTipiVisita, "TipiVisita");
+            new File("fileXML/tipiVisita.xml"), elencoTipiVisita, "TipiVisita");
 
         XMLUtilities.scriviXML(
-            new File("fileXML/luoghibu.xml"), corpoDati.getElencoLuoghi(), "Luoghi");
+            new File("fileXML/luoghi.xml"), corpoDati.getElencoLuoghi(), "Luoghi");
+
+        String[] dati = {"false", corpoDati.getAmbitoTerritoriale(), 
+                String.valueOf(corpoDati.getNumeroMassimoIscrittiFruitore())};
+        String[] campi = {"primaConfigurazione", "ambitoTerritoriale", "numeroMassimoIscritti"};
+        XMLUtilities.scriviXML(
+            new File("fileXML/datiExtra.xml"), dati, campi, "datiDiConfigurazione");
     }
 }

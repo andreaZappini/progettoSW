@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <TipiVisita>
     <TipoVisita>
-        <titolo>viaggio</titolo>
-        <descrizione>viaggio</descrizione>
-        <puntoIncontro>qui</puntoIncontro>
-        <periodoAnno>inverno</periodoAnno>
+        <titolo>t</titolo>
+        <descrizione>d</descrizione>
+        <puntoIncontro>pi</puntoIncontro>
+        <periodoAnno>pa</periodoAnno>
         <giorniDisponibili>
             <giorniDisponibil>LUNEDI</giorniDisponibil>
-            <giorniDisponibil>MARTEDI</giorniDisponibil>
         </giorniDisponibili>
-        <oraInizio>6.0</oraInizio>
-        <durata>100</durata>
+        <oraInizio>1.0</oraInizio>
+        <durata>1</durata>
         <bigliettoNecessario>si</bigliettoNecessario>
-        <minPartecipanti>5</minPartecipanti>
-        <maxPartecipanti>10</maxPartecipanti>
+        <minPartecipanti>1</minPartecipanti>
+        <maxPartecipanti>2</maxPartecipanti>
         <elencoVolontari>
-            <elencoVolontar>Matteo Rossi</elencoVolontar>
+            <elencoVolontar>v</elencoVolontar>
         </elencoVolontari>
     </TipoVisita>
 </TipiVisita>
