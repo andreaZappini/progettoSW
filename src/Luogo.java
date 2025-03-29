@@ -11,18 +11,6 @@ public class Luogo{
         this.visite = new Elenco<>();
     }
 
-    public String getCodiceLuogo() {
-        return this.codiceLuogo;
-    }
-
-    public String getDescrizione(){
-        return this.descrizione;
-    }
-
-    public String getCollocazione(){
-        return this.collocazioneGeografica;
-    }
-
     public void aggiungiAElencoVisite(TipoVisita v){
        this.visite.aggiungi(v);
     }
@@ -42,5 +30,17 @@ public class Luogo{
     @Override
     public String toString(){
         return this.codiceLuogo;
+    }
+
+    public String toStringLuogo(){
+        StringBuffer s = new StringBuffer();
+        s.append(this.codiceLuogo+" ("+this.collocazioneGeografica+") \n"
+        		+ "["+this.descrizione+"]\nTipi di visita associati: \n"
+        		+this.visite.visualizza2()+"\n");
+    	return s.toString();
+    }
+
+    public String visualizzaVisite(){
+        return this.visite.visualizza();
     }
 }

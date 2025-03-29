@@ -2,8 +2,14 @@
 <Utente>
     <Volontario>
         <primoAccesso>true</primoAccesso>
+        <username>v</username>
+        <password/>
+        <primoAccesso>true</primoAccesso>
     </Volontario>
     <Configuratore>
         <primoAccesso>false</primoAccesso>
+        <username>c</username>
+        <password>1</password>
+        <primoAccesso>true</primoAccesso>
     </Configuratore>
 </Utente>

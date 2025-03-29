@@ -10,18 +10,20 @@ public class CLI {
 
     public static String[] creaCorpoDati(){
 
-        String[] infoCoropDati = new String[2];
+        String[] infoCorpoDati = new String[2];
 
         try{
-            System.out.printf("Seleziona l'ambito territoriale -> ");
-            infoCoropDati[0] = in.nextLine();
-            System.out.printf("Inserisci numero massimo iscritti per ogni fruitore -> ");
-            infoCoropDati[1] = in.nextLine();
+        	System.out.println("\n\nFase della creazione del CORPO DATI!\n");
+            System.out.printf("Indicare l'ambito territoriale prescelto -> ");
+            infoCorpoDati[0] = in.nextLine();
+            System.out.printf("Inserire il numero massimo iscritti per ciascun fruitore -> ");
+            infoCorpoDati[1] = in.nextLine();
         }catch(Exception e){
+        	System.out.println("ERRORE durante l'inserimento dei dati per la creazione del corpo dati!");
             e.printStackTrace();
         }
 
-        return infoCoropDati;
+        return infoCorpoDati;
     }
         
      //aggiungi metodo sign in
@@ -30,11 +32,31 @@ public class CLI {
         String[] datiUtente = new String[2];
 
         try{
-            System.out.println("username:");
+        	System.out.println("-----------------------------------");
+        	System.out.println("Fase del LOGIN utente!\n");
+            System.out.printf("Inserisci il tuo username: ");
             datiUtente[0] = in.nextLine();
-            System.out.println("password:");
+            System.out.printf("Inserisci la tua password: ");
+            datiUtente[1] = in.nextLine();
+        	System.out.println("-----------------------------------");
+        }catch(Exception e){
+        	System.out.println("ERRORE durante l'inserimento dei dati per il login!");
+            e.printStackTrace();
+        }
+        return datiUtente;
+    }
+    
+    public static String[] nuovoInserimento(){
+
+        String[] datiUtente = new String[2];
+
+        try{
+            System.out.printf("Inserire l'username: ");
+            datiUtente[0] = in.nextLine();
+            System.out.printf("Inserire la password: ");
             datiUtente[1] = in.nextLine();
         }catch(Exception e){
+        	System.out.println("ERRORE durante l'inserimento dei dati per il nuovo utente!");
             e.printStackTrace();
         }
         return datiUtente;
@@ -47,10 +69,11 @@ public class CLI {
     public static String cambiaPassword(){
         String password = null;
         try{
-            System.out.printf("nuova password -> ");
+            System.out.printf("Indicare la nuova password: ");
             password = in.nextLine();
         }catch(Exception e){
-            e.printStackTrace();
+        	System.out.println("ERRORE durante l'inserimento della nuova password dell'utente!");
+        	e.printStackTrace();
         }
         return password;
     }
@@ -63,6 +86,7 @@ public class CLI {
             System.out.printf(msg);
             scelta = Integer.parseInt(in.nextLine());
         }catch(Exception e){
+        	System.out.println("ERRORE durante l'inserimento della scelta!");
             e.printStackTrace();
         }
         return scelta;
@@ -76,6 +100,7 @@ public class CLI {
             System.out.printf(msg);
             scelta = in.nextLine();
         }catch(Exception e){
+        	System.out.println("ERRORE durante l'inserimento della scelta!");
             e.printStackTrace();
         }
         return scelta;
@@ -84,9 +109,9 @@ public class CLI {
     public static String[] messaggioCreazione(String[] msg){
         String[] res = new String[msg.length];
         for(int i = 0; i < msg.length; i++){
-            System.out.println(msg[i]);
+            System.out.printf(msg[i]);
             res[i] = in.nextLine();
         }
         return res;
-    }
+    } 
 }

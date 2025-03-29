@@ -1,4 +1,5 @@
 public class CorpoDati{
+    
     private String ambitoTerritoriale;
     private int numeroMassimoIscrittiFruitore;
     private Elenco<Luogo> elencoLuoghi;

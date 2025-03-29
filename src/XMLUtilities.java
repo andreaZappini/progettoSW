@@ -1,4 +1,5 @@
 import java.io.File;
+
 import java.io.FileOutputStream;
 import java.lang.reflect.Field;
 import java.util.Collection;
@@ -24,7 +25,9 @@ public class XMLUtilities {
         Document doc = builder.parse(file);
         doc.getDocumentElement().normalize();
     
-        NodeList lista = doc.getElementsByTagName(contesto);
+        //NodeList lista = doc.getElementsByTagName(contesto);
+        NodeList lista = doc.getDocumentElement().getChildNodes();
+
     
         for (int i = 0; i < lista.getLength(); i++) {
             Node nodo = lista.item(i);
@@ -33,7 +36,7 @@ public class XMLUtilities {
                 try {
                     elenco.aggiungi(parser.apply(elemento));
                 } catch (Exception e) {
-                    System.err.println("Errore nel parsing dell'elemento: " + e.getMessage());
+                    System.err.println("ERRORE nel parsing dell'elemento: " + e.getMessage());
                 }
             }
         }
@@ -60,7 +63,7 @@ public class XMLUtilities {
         }
         return risultato;
     }
-
+    
     public static <T> void scriviXML(File file, Elenco<T> elencoOggetti, String rootElementName) throws Exception {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
@@ -75,35 +78,40 @@ public class XMLUtilities {
             Element objectElement = doc.createElement(oggetto.getClass().getSimpleName());
             rootElement.appendChild(objectElement);
     
-            for (Field field : oggetto.getClass().getDeclaredFields()) {
-                field.setAccessible(true);
-                Object valoreCampo = field.get(oggetto);
-    
-                if (valoreCampo != null) {
-                    if (valoreCampo instanceof Collection) {
-                        Element listaElement = doc.createElement(field.getName());
-                        for (Object item : (Collection<?>) valoreCampo) {
-                            Element itemElement = doc.createElement("elemento");
-                            itemElement.appendChild(doc.createTextNode(item.toString()));
-                            listaElement.appendChild(itemElement);
+            Class<?> clazz = oggetto.getClass();
+            while (clazz != null) { 
+                for (Field field : clazz.getDeclaredFields()) {
+                    field.setAccessible(true);
+                    Object valoreCampo = field.get(oggetto);
+
+                    if (valoreCampo != null) {
+                        if (valoreCampo instanceof Collection) {
+                            Element listaElement = doc.createElement(field.getName());
+                            for (Object item : (Collection<?>) valoreCampo) {
+                                Element itemElement = doc.createElement("elemento");
+                                itemElement.appendChild(doc.createTextNode(item.toString()));
+                                listaElement.appendChild(itemElement);
+                            }
+                            objectElement.appendChild(listaElement);
+                        } else if (valoreCampo instanceof Elenco) {
+                            Element elencoElement = doc.createElement(field.getName());
+                            Elenco<?> elenco = (Elenco<?>) valoreCampo;
+                            for (String subKey : elenco.getElenco().keySet()) {
+                                Element subElement = doc.createElement("elemento");
+                                subElement.appendChild(doc.createTextNode(elenco.getElementByKey(subKey).toString()));
+                                elencoElement.appendChild(subElement);
+                            }
+                            objectElement.appendChild(elencoElement);
+                        } else {
+                            Element campoElement = doc.createElement(field.getName());
+                            campoElement.appendChild(doc.createTextNode(valoreCampo.toString()));
+                            objectElement.appendChild(campoElement);
                         }
-                        objectElement.appendChild(listaElement);
-                    } else if (valoreCampo instanceof Elenco) {
-                        Element elencoElement = doc.createElement(field.getName());
-                        Elenco<?> elenco = (Elenco<?>) valoreCampo;
-                        for (String subKey : elenco.getElenco().keySet()) {
-                            Element subElement = doc.createElement("elemento");
-                            subElement.appendChild(doc.createTextNode(elenco.getElementByKey(subKey).toString()));
-                            elencoElement.appendChild(subElement);
-                        }
-                        objectElement.appendChild(elencoElement);
-                    } else {
-                        Element campoElement = doc.createElement(field.getName());
-                        campoElement.appendChild(doc.createTextNode(valoreCampo.toString()));
-                        objectElement.appendChild(campoElement);
                     }
                 }
+                clazz = clazz.getSuperclass(); // Passa alla superclasse per ottenere anche i campi ereditati
             }
+
         }
     
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -118,7 +126,7 @@ public class XMLUtilities {
         }
     
         System.out.println("File XML scritto con successo: " + file.getName());
-    }    
+    } 
 
     public static void scriviXML(File file, String[] dati, String[] campi, String contesto) throws Exception{
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
