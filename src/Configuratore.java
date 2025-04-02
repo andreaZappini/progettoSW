@@ -24,7 +24,6 @@ public class Configuratore extends Utente{
 
     public Utente creaVolontario(String[] dati, Elenco<Utente> e){
 
-        
         String username = dati[0];
         String password = dati[1];
         Utente x = new Volontario(username, password);

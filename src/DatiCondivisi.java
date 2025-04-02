@@ -20,5 +20,4 @@ public class DatiCondivisi {
     public Elenco<Luogo> getElencoLuoghi() {
         return elencoLuoghi;
     }
-
 }

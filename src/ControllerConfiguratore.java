@@ -30,7 +30,7 @@ public class ControllerConfiguratore {
         "3. Aggiungere un nuovo VOLONTARIO\n" + "4. Exit\n"+
         "------------------------------------------------------------------------------------------------\n";
     
-        private static final String[] CREAZIONE_LUOGO = {
+    private static final String[] CREAZIONE_LUOGO = {
         "- Espressione sintetica identificativa: ",
         "- Descrizione: ",
         "- Collocazione geografica: "
@@ -196,7 +196,7 @@ public class ControllerConfiguratore {
 
     private void creaVolontario(){
 
-        String[] dati = CLI.login();
+        String[] dati = CLI.creaUtente("volontario");
         configuratore.creaVolontario(dati, elencoUtenti);
     }
 }

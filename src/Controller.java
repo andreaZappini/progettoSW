@@ -1,6 +1,5 @@
 public class Controller{
     
-
     private static CorpoDati corpoDati;
     private static Elenco<Utente> elencoUtenti = new Elenco<>();
     private static Elenco<Luogo> elencoLuoghi = new Elenco<>();

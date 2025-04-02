@@ -35,7 +35,6 @@ public class Elenco<T> {
         }
         return elencoUtenti;
     }
-
     
     public void rimuovi(T elemento) {
         if(contiene(elemento.toString())) {
@@ -59,11 +58,9 @@ public class Elenco<T> {
 
     public String visualizza() {
         StringBuffer s = new StringBuffer();
-        int i = 1;
         for (String key : this.elenco.keySet()) {
-            s.append("\t"+i+"- "+this.elenco.get(key).toString());
+            s.append("\t" + "- " + this.elenco.get(key).toString());
             s.append("\n");
-            i++;
         }
         return s.toString();
     }
@@ -85,36 +82,32 @@ public class Elenco<T> {
     
     public String visualizzaLuogo() {
         StringBuffer s = new StringBuffer();
-        int i = 1;
         for (String key : this.elenco.keySet()) {
         	Object obj = this.elenco.get(key); // Ottieni l'oggetto dalla HashMap
             
             if (obj instanceof Luogo) { // Controlla se è un'istanza di Luogo
                 Luogo luogo = (Luogo) obj; // Casting a Luogo
-                s.append(i).append("- ").append(luogo.toStringLuogo()); // Usa toStringLuogo()
+                s.append("- " + luogo.toStringLuogo()); // Usa toStringLuogo()
             } else {
-                s.append("\t").append(i).append("- ").append("L'elemento NON è un Luogo! ");
+                s.append("\t - L'elemento NON è un Luogo!");
             }
             s.append("\n");
-            i++;
         }
         return s.toString();
     }
     
     public String visualizzaTipo() {
         StringBuffer s = new StringBuffer();
-        int i = 1;
         for (String key : this.elenco.keySet()) {
         	Object obj = this.elenco.get(key); // Ottieni l'oggetto dalla HashMap
             
             if (obj instanceof TipoVisita) { // Controlla se è un'istanza di Luogo
-                TipoVisita t = (TipoVisita) obj; // Casting a Luogo
-                s.append(i).append("- ").append(t.toStringTipoVisita()); // Usa toStringLuogo()
+                TipoVisita tipoVisita = (TipoVisita) obj; // Casting a Luogo
+                s.append("- " + tipoVisita.toStringTipoVisita()); // Usa toStringLuogo()
             } else {
-                s.append("\t").append(i).append("- ").append("L'elemento NON è un tipo di visita! ");
+                s.append("\t - L'elemento NON è un TipoVisita!");
             }
             s.append("\n");
-            i++;
         }
         return s.toString();
     }

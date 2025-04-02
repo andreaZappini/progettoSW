@@ -113,5 +113,25 @@ public class CLI {
             res[i] = in.nextLine();
         }
         return res;
+    }
+
+    public static String[] creaUtente(String str) {
+        
+        
+        String[] datiUtente = new String[2];
+
+        try{
+        	System.out.println("-----------------------------------");
+        	System.out.println("creazione di un nuovo " + str.toUpperCase());
+            System.out.printf("Inserisci username: ");
+            datiUtente[0] = in.nextLine();
+            System.out.printf("Inserisci password: ");
+            datiUtente[1] = in.nextLine();
+        	System.out.println("-----------------------------------");
+        }catch(Exception e){
+        	System.out.println("ERRORE durante l'inserimento dei dati per il login!");
+            e.printStackTrace();
+        }
+        return datiUtente;
     } 
 }

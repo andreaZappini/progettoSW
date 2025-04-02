@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <datiDiConfigurazione>
-  <primaConfigurazione>false</primaConfigurazione>
-  <ambitoTerritoriale>c</ambitoTerritoriale>
-  <numeroMassimoIscritti>5</numeroMassimoIscritti>
+  <primaConfigurazione>true</primaConfigurazione>
+  <ambitoTerritoriale></ambitoTerritoriale>
+  <numeroMassimoIscritti></numeroMassimoIscritti>
 </datiDiConfigurazione>
