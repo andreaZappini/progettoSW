@@ -1,6 +1,6 @@
 package controller;
 
-import src.model.*;
+import model.*;
 import view.CLI;
 
 public class ControllerVolontario {

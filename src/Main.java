@@ -1,5 +1,5 @@
-package model;
-import controller;
+import controller.Controller;
+import model.GestioneTempo;
 
 public class Main {
     

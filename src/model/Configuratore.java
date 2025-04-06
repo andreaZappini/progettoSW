@@ -1,10 +1,6 @@
 package model;
 import java.util.ArrayList;
 
-import controller.*;
-import view.CLI;
-
-
 public class Configuratore extends Utente{
 
     public Configuratore(String username, String password, boolean primoAccesso) {
