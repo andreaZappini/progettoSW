@@ -1,3 +1,8 @@
+package controller;
+
+import model.*;
+import view.CLI;
+
 public class Controller{
     
     private static CorpoDati corpoDati;

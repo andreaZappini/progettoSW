@@ -1,3 +1,5 @@
+package model;
+
 public class Volontario extends Utente {
     
     public Volontario(String username, String password, boolean primoAccesso) {

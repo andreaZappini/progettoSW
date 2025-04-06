@@ -1,4 +1,9 @@
+package controller;
+
 import java.util.ArrayList;
+import model.*;
+import view.CLI;
+
 
 public class ControllerConfiguratore {
     private Configuratore configuratore;

@@ -1,3 +1,4 @@
+package model;
 public class DatiCondivisi {
     private Elenco<Utente> elencoUtenti;
     private Elenco<TipoVisita> elencoTipiVisita;

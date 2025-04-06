@@ -1,3 +1,4 @@
+package model;
 public enum StatiVisita {
    
     VISITA_PROPOIBILE("Visita proponibile"),

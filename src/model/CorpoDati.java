@@ -1,3 +1,4 @@
+package model;
 public class CorpoDati{
     
     private String ambitoTerritoriale;
