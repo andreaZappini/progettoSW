@@ -2,6 +2,7 @@ package model;
 import java.io.File;
 
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.HashMap;

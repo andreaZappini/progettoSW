@@ -9,6 +9,7 @@ public class Controller{
     private static Elenco<Utente> elencoUtenti = new Elenco<>();
     private static Elenco<Luogo> elencoLuoghi = new Elenco<>();
     private static Elenco<TipoVisita> elencoTipiVisita = new Elenco<>();
+    // private static Elenco<Visita> elencoVisite = new Elenco<>();
     private static boolean working;
 
     public static void start() throws Exception{

@@ -7,8 +7,8 @@ public class Visita {
     private String mese;
     private TipoVisita tipo;
 
-    public Visita(StatiVisita stato, String data, String mese, TipoVisita tipo) {
-        this.stato = stato;
+    public Visita(String data, String mese, TipoVisita tipo) {
+        this.stato = StatiVisita.VISITA_PROPOSTA;
         this.data = data;
         this.mese = mese;
         this.tipo = tipo;
@@ -30,7 +30,7 @@ public class Visita {
         return tipo;
     }
 
-    public void cambiaStato(StatiVisita stato) {
+    public void cambiaStato( ) {
        //TODO: implement
     }
 }

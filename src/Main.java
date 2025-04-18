@@ -1,3 +1,5 @@
+import java.time.format.DateTimeFormatter;
+
 import controller.Controller;
 import model.GestioneTempo;
 
@@ -5,8 +7,9 @@ public class Main {
     
     public static void main(String[] args) throws Exception{        
         
-        int[] data = GestioneTempo.giorno();
-        System.out.println(data[0] + " " + GestioneTempo.nomeMese(data[1]) + " " + data[2]);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String oggi = GestioneTempo.getInstance().getDataCorrente().format(formatter);
+        System.out.println("Data simulata: " + oggi);
         Controller.start();
     }
 }

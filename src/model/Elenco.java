@@ -66,21 +66,11 @@ public class Elenco<T> {
         return s.toString();
     }
     
-    public String visualizza2() {
-        StringBuffer s = new StringBuffer();
-       
-        for (String key : this.elenco.keySet()) {
-            s.append("\t"+"- "+this.elenco.get(key).toString());
-            s.append("\n");
-            
-        }
-        return s.toString();
-    }
-    
     public int numeroElementi() {
     	return this.elenco.size();
     }
     
+    //non usato
     public String visualizzaLuogo() {
         StringBuffer s = new StringBuffer();
         for (String key : this.elenco.keySet()) {
@@ -97,7 +87,8 @@ public class Elenco<T> {
         return s.toString();
     }
     
-    public String visualizzaTipo() {
+    //non usato
+    public String visualizzaTipoVisita() {
         StringBuffer s = new StringBuffer();
         for (String key : this.elenco.keySet()) {
         	Object obj = this.elenco.get(key); // Ottieni l'oggetto dalla HashMap

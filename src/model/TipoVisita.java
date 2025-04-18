@@ -14,6 +14,7 @@ public class TipoVisita {
     private int minPartecipanti;
     private int maxPartecipanti;
     private Elenco<Volontario> elencoVolontari;
+    private StatiVisita stato;
 
     public TipoVisita(String titolo, 
                         String descrizione, 
@@ -38,7 +39,7 @@ public class TipoVisita {
         this.minPartecipanti = minPartecipanti;
         this.maxPartecipanti = maxPartecipanti;
         this.elencoVolontari = elencoVolontari;
-    }
+    } 
 
     public String getTitolo(){
         return this.titolo;
@@ -102,7 +103,7 @@ public class TipoVisita {
         + "Necessità del biglietto: " + this.bigliettoNecessario 
         + "\n(numero minimo partecipanti: " + this.minPartecipanti
         + "; numero massimo partecipanti: " + this.maxPartecipanti + ")\n"
-        + "L'elenco delle guide volontarie è:\n" + this.elencoVolontari.visualizza2();
+        + "L'elenco delle guide volontarie è:\n" + this.elencoVolontari.visualizza();
     }
 
     @Override

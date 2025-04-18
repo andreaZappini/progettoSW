@@ -3,6 +3,9 @@ package model;
 import view.CLI;
 
 import java.io.File;
+import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import org.w3c.dom.Element;
@@ -11,9 +14,10 @@ import org.w3c.dom.NodeList;
 public class RipristinoDati {
     
     public static void primoConfiguratore(Elenco<Utente> e) throws Exception{
+
         //sistema controller e relativi metodi di recupero dati
         Elenco<Utente> elencop = XMLUtilities.leggiXML(
-            new File("fileXML/configuratore1.xml"), 
+            new File("progettoSW/fileXML/configuratore1.xml"), 
             "Utente", 
             elemento -> {
                 String username = elemento.getElementsByTagName("username").item(0).getTextContent();
@@ -28,19 +32,19 @@ public class RipristinoDati {
     public static void salvataggioDati(Elenco<Utente> elencoUtenti, Elenco<TipoVisita> elencoTipiVisita, 
             CorpoDati corpoDati) throws Exception{
         XMLUtilities.scriviXML(
-            new File("fileXML/utenti.xml"), elencoUtenti, "Utente");
+            new File("progettoSW/fileXML/utenti.xml"), elencoUtenti, "Utente");
 
         XMLUtilities.scriviXML(
-            new File("fileXML/tipiVisita.xml"), elencoTipiVisita, "TipiVisita");
+            new File("progettoSW/fileXML/tipiVisita.xml"), elencoTipiVisita, "TipiVisita");
 
         XMLUtilities.scriviXML(
-            new File("fileXML/luoghi.xml"), corpoDati.getElencoLuoghi(), "Luoghi");
+            new File("progettoSW/fileXML/luoghi.xml"), corpoDati.getElencoLuoghi(), "Luoghi");
 
         String[] dati = {"false", corpoDati.getAmbitoTerritoriale(), 
                 String.valueOf(corpoDati.getNumeroMassimoIscrittiFruitore())};
         String[] campi = {"primaConfigurazione", "ambitoTerritoriale", "numeroMassimoIscritti"};
         XMLUtilities.scriviXML(
-            new File("fileXML/datiExtra.xml"), dati, campi, "datiDiConfigurazione");
+            new File("progettoSW/fileXML/datiExtra.xml"), dati, campi, "datiDiConfigurazione");
     
     }
 
@@ -128,29 +132,29 @@ public class RipristinoDati {
     }
 
     public static String[] datiRipristino() throws Exception{
+        
         return XMLUtilities.leggiXML(
-            new File("fileXML/datiExtra.xml"),
+        new File("progettoSW/fileXML/datiExtra.xml"),
             "datiDiConfigurazione"
         );
     }
 
     public static DatiCondivisi datiCondivisi() throws Exception{
+
         Elenco<Utente> elencoUtenti = XMLUtilities.leggiXML(
-            new File("fileXML/utenti.xml"), 
+            new File("progettoSW/fileXML/utenti.xml"), 
             "Utenti", 
             elemento -> creaUtente(elemento)
         );
 
-        System.out.println(elencoUtenti.visualizza());
-
         Elenco<TipoVisita> elencoTipiVisita = XMLUtilities.leggiXML(
-            new File("fileXML/tipiVisita.xml"), 
+            new File("progettoSW/fileXML/tipiVisita.xml"), 
             "TipoVisita", 
             elemento -> creaTipoVisita(elemento, elencoUtenti)
         );
 
         Elenco<Luogo> elencoLuoghi = XMLUtilities.leggiXML(
-            new File ("fileXML/luoghi.xml"),
+            new File("progettoSW/fileXML/luoghi.xml"),
             "Luoghi",
             elemento -> creaLuogo(elemento, elencoTipiVisita)
         );

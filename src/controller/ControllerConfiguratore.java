@@ -1,5 +1,8 @@
 package controller;
 
+import java.lang.reflect.Array;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import model.*;
 import view.CLI;
@@ -19,7 +22,7 @@ public class ControllerConfiguratore {
         "1. Aggiungere un nuovo Configuratore\n" +
         "2. Indicare le date del mese i+3 precluse ad ogni visita\n" +
         "3. Modificare il numero massimo di iscritti per ogni fruitore\n" +
-        "4. Visualizzare l'elenco dei volontari\n" +
+        "4. Visualizzare l'elenco dei volontari, con relativi tipi di visita per cui ha dato disponibilità\n" +
         "5. Visualizzare l'elenco dei luoghi visitabili\n" +
         "6. Visualizzare l'elenco dei tipi di visita associati ad un determinato luogo\n" +
         "7. Visualizzare lo stato delle visite\n"+
@@ -75,13 +78,13 @@ public class ControllerConfiguratore {
                 aggiungiConfiguratore();
                 break;
             case 2:
-                //indica date
+                indicaDatePrecluse();
                 break;
             case 3: 
                 cambiaNumeroMassimoIscritti();
                 break;
             case 4:
-                CLI.stampaMessaggio(elencoUtenti.getClassiUtente(Volontario.class).visualizza());
+                visualizzaVolontari();
                 break;
             case 5:
                 CLI.stampaMessaggio(corpoDati.getElencoLuoghi().visualizza());
@@ -103,6 +106,41 @@ public class ControllerConfiguratore {
                 break;
         }
         return continua;
+    }
+
+    private void visualizzaVolontari() {
+        CLI.stampaMessaggio("Ecco i volontari disponibili:");
+        for(Volontario v : elencoUtenti.getClassiUtente(Volontario.class).getElenco().values()){
+            CLI.stampaMessaggio(v.visualizzaVolo());
+        }
+    }
+    //fare doppio array e scrittura xml
+    private void indicaDatePrecluse(){
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate data = GestioneTempo.getInstance().getDataCorrente();;
+        CLI.stampaMessaggio(data.format(formatter));
+        LocalDate[] intervallo = GestioneTempo.getInstance().intervalloDate();
+        CLI.stampaMessaggio("intervallo da " + intervallo[0].format(formatter) + " a " + intervallo[1].format(formatter));
+
+        CLI.stampaMessaggio("scegli le date da precludere(solo il numero del giorno per il prossimo mese)");
+        ArrayList<LocalDate> giorniPreclusi = new ArrayList<>();
+        String s = "null";
+        while(!s.equals("x")){
+            s = CLI.sceltaString("scegli un giorno: (x per uscire)");
+            if(!s.equals("x")){
+                int giorno = Integer.parseInt(s);
+                LocalDate dataGiorno = GestioneTempo.contieneGiorno(intervallo[0],intervallo[1],giorno);
+                if(!dataGiorno.equals(null)){
+                    giorniPreclusi.add(dataGiorno);
+                }else{
+                    CLI.stampaMessaggio("giorno non valido");
+                }
+            }
+        }
+        for(LocalDate g : giorniPreclusi){
+            CLI.stampaMessaggio(g.format(formatter));
+        }
     }
 
     private void aggiungiConfiguratore(){
@@ -197,6 +235,11 @@ public class ControllerConfiguratore {
                                 durata, bigliettoNecessario,
                                 minPartecipanti, maxPartecipanti, 
                                 elencoV, elencoTipiVisita);
+                                
+        //non deve stare qui                      
+        for(Volontario v : elencoV.getElenco().values()){
+            v.aggiungiVisitaVolontario(elencoTipiVisita.getElementByKey(titolo));
+        }
     }
 
     private void creaVolontario(){

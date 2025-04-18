@@ -38,7 +38,7 @@ public class Luogo{
         StringBuffer s = new StringBuffer();
         s.append(this.codiceLuogo+" ("+this.collocazioneGeografica+") \n"
         		+ "["+this.descrizione+"]\nTipi di visita associati: \n"
-        		+this.visite.visualizza2()+"\n");
+        		+this.visite.visualizza()+"\n");
     	return s.toString();
     }
 

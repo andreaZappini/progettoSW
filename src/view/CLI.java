@@ -73,11 +73,11 @@ public class CLI {
         try{
             System.out.printf("Indicare la nuova password: ");
             password = in.nextLine();
+            return password;
         }catch(Exception e){
         	System.out.println("ERRORE durante l'inserimento della nuova password dell'utente!");
-        	e.printStackTrace();
+        	return null;
         }
-        return password;
     }
 
     public static int sceltaInt(String msg){
@@ -135,5 +135,5 @@ public class CLI {
             e.printStackTrace();
         }
         return datiUtente;
-    } 
+    }
 }
