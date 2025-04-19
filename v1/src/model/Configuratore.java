@@ -1,4 +1,5 @@
 package model;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Configuratore extends Utente{
@@ -65,4 +66,7 @@ public class Configuratore extends Utente{
         return l.visualizzaVisite();
     }
     
+    public void aggiungiDatePrecluse(ArrayList<LocalDate> datePrecluse) {
+        GestioneTempo.getInstance().setDatePrecluse(datePrecluse);
+    }
 }

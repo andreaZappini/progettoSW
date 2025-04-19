@@ -1,1 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TipiVisita>
+    <TipoVisita>
+        <titolo>visita a castello</titolo>
+        <descrizione>visita a castello</descrizione>
+        <puntoIncontro>castello</puntoIncontro>
+        <periodoAnno>autunno</periodoAnno>
+        <giorniDisponibili/>
+        <oraInizio>4.0</oraInizio>
+        <durata>120</durata>
+        <bigliettoNecessario>no</bigliettoNecessario>
+        <minPartecipanti>4</minPartecipanti>
+        <maxPartecipanti>8</maxPartecipanti>
+        <elencoVolontari/>
+    </TipoVisita>
+</TipiVisita>

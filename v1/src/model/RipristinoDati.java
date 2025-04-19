@@ -3,9 +3,6 @@ package model;
 import view.CLI;
 
 import java.io.File;
-import java.io.InputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import org.w3c.dom.Element;

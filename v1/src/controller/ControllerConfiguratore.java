@@ -1,6 +1,5 @@
 package controller;
 
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -138,6 +137,7 @@ public class ControllerConfiguratore {
                 }
             }
         }
+        configuratore.aggiungiDatePrecluse(giorniPreclusi);
         for(LocalDate g : giorniPreclusi){
             CLI.stampaMessaggio(g.format(formatter));
         }

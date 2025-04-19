@@ -14,7 +14,6 @@ public class TipoVisita {
     private int minPartecipanti;
     private int maxPartecipanti;
     private Elenco<Volontario> elencoVolontari;
-    private StatiVisita stato;
 
     public TipoVisita(String titolo, 
                         String descrizione, 
