@@ -20,7 +20,8 @@ public class Main {
         }, 0, 1, TimeUnit.SECONDS);
 
         Controller.start();
-    }
+
+    }    
 }
 
 

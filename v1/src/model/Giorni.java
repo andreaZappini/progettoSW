@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public enum Giorni {
-    LUNEDI("lunedi"),
-    MARTEDI("martedi"),
-    MERCOLEDI("mercoledi"),
-    GIOVEDI("giovedi"),
-    VENERDI("venerdi"),
+    LUNEDI("lunedì"),
+    MARTEDI("martedì"),
+    MERCOLEDI("mercoledì"),
+    GIOVEDI("giovedì"),
+    VENERDI("venerdì"),
     SABATO("sabato"),
     DOMENICA("domenica");
 

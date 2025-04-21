@@ -31,10 +31,9 @@ public class GestioneTempo {
     }
 
     public void setDatePrecluse(ArrayList<LocalDate> nuoveDate) {
-        ArrayList<LocalDate> esistenti = datePrecluseMese.getElementByKey("3").getDate();
         ListaDate ld = datePrecluseMese.getElementByKey("3");
-        for (LocalDate data : ld.getDate()) {
-            if (!esistenti.contains(data)) {
+        for (LocalDate data : nuoveDate) {
+            if (!ld.getDate().contains(data)) {
                 ld.getDate().add(data);
             }
         }
@@ -81,37 +80,21 @@ public class GestioneTempo {
         }
     }
     
-    public LocalDate[] intervalloDate(){
-
+    public LocalDate[] intervalloDate() {
         LocalDate[] res = new LocalDate[2];
-
-        if(getDataCorrente().getDayOfMonth() < 15){
-            res[0] = LocalDate.of(getDataCorrente().getYear(), getDataCorrente().getMonthValue(), 16);
-        }else{
-            if(getDataCorrente().getMonthValue() == 12){
-                res[0] = LocalDate.of(getDataCorrente().getYear() + 1, 1, 16);
-            }else{
-                res[0] = LocalDate.of(getDataCorrente().getYear(), getDataCorrente().getMonthValue() + 1, 16);
-            }
+        LocalDate oggi = getDataCorrente();
+    
+        if (oggi.getDayOfMonth() < 15) {
+            res[0] = oggi.plusMonths(3).withDayOfMonth(16);
+            res[1] = oggi.plusMonths(4).withDayOfMonth(15);
+        } else {
+            res[0] = oggi.plusMonths(4).withDayOfMonth(16);
+            res[1] = oggi.plusMonths(5).withDayOfMonth(15);
         }
-
-        if (getDataCorrente().getDayOfMonth()< 15){
-            if(getDataCorrente().getMonthValue() == 12){
-                res[1] = LocalDate.of(getDataCorrente().getYear() + 1, 1, 15);
-            }else{
-                res[1] = LocalDate.of(getDataCorrente().getYear(), getDataCorrente().getMonthValue() + 1, 15);
-            }
-        }else{
-            if(getDataCorrente().getMonthValue() == 12){
-                res[1] = LocalDate.of(getDataCorrente().getYear() + 1, 2, 15);
-            }else if(getDataCorrente().getMonthValue() == 11){
-                res[1] = LocalDate.of(getDataCorrente().getYear() + 1, 1, 15);
-            }else{
-                res[1] = LocalDate.of(getDataCorrente().getYear(), getDataCorrente().getMonthValue() + 2, 15);
-            }
-        }
+    
         return res;
     }
+    
 
     public static LocalDate contieneGiorno(LocalDate inizio, LocalDate fine, int giorno) {
         LocalDate current = inizio;

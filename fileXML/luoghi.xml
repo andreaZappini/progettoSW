@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Luoghi>
     <Luogo>
-        <codiceLuogo>l</codiceLuogo>
-        <descrizione>l</descrizione>
-        <collocazioneGeografica>l</collocazioneGeografica>
+        <codiceLuogo>i</codiceLuogo>
+        <descrizione>i</descrizione>
+        <collocazioneGeografica>i</collocazioneGeografica>
         <visite>
-            <elemento>l</elemento>
+            <elemento>t</elemento>
         </visite>
     </Luogo>
 </Luoghi>
