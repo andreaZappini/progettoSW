@@ -1,6 +1,7 @@
 package model;
 public enum StatiVisita {
    
+    VISITA_PROPONIBILE("Visita proponibile"),
     VISITA_PROPOSTA("Visita proposta"),
     VISITA_COMPLETA("Visita completa"),
     VISITA_CONFERMATA("Visita confermata"),

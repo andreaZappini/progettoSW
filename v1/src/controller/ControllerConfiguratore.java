@@ -12,6 +12,8 @@ public class ControllerConfiguratore {
     private CorpoDati corpoDati;
     private Elenco<Utente> elencoUtenti;
     private Elenco<TipoVisita> elencoTipiVisita;
+    private Elenco<Visita> visite;
+    private Elenco<ListaDate> datePrecluse;
     private boolean chiudiApp = true;
 
     
@@ -54,11 +56,15 @@ public class ControllerConfiguratore {
         "- Numero minimo di partecipanti: ",
         "- Numero massimo di partecipanti: "
     };
-    public ControllerConfiguratore(Configuratore conf, CorpoDati dati, Elenco<Utente> utenti, Elenco<TipoVisita> visite) {
+
+    public ControllerConfiguratore(Configuratore conf, CorpoDati dati, Elenco<Utente> utenti, 
+                                    Elenco<TipoVisita> tipiVisita, Elenco<Visita> elencoVisite, Elenco<ListaDate> datePrecluse) {
         this.configuratore = conf;
         this.corpoDati = dati;
         this.elencoUtenti = utenti;
-        this.elencoTipiVisita = visite;
+        this.elencoTipiVisita = tipiVisita;
+        this.visite = elencoVisite;
+        this.datePrecluse = datePrecluse;
     }
 
     public boolean start() {
@@ -92,7 +98,7 @@ public class ControllerConfiguratore {
                 visualizzaVisiteLuogo();
                 break;
             case 7:
-                //visualizzaStatoVisite();
+                visualizzaStatoVisite();
                 break;
             case 8:
                 continua = false;
@@ -105,6 +111,25 @@ public class ControllerConfiguratore {
                 break;
         }
         return continua;
+    }
+
+    public void visualizzaStatoVisite() {
+        CLI.stampaMessaggio("Ecco le visite disponibili:");
+        for(Visita v : visite.getElenco().values()){
+            CLI.stampaMessaggio(v.toString() + " --> " + v.getStato().toString().toUpperCase());
+        }
+    }
+
+    private void creaVisite(){
+        //GestoreVisite gestoreVisite = GestoreVisite.getInstance();
+        LocalDate[] intervallo = GestioneTempo.getInstance().intervalloDate();
+        GestoreVisite.creaVisiteMese(
+            intervallo[0],
+            intervallo[1],
+            elencoTipiVisita,
+            visite,
+            GestioneTempo.getInstance().getDatePrecluseMese(3)
+        );
     }
 
     private void visualizzaVolontari() {
@@ -137,6 +162,8 @@ public class ControllerConfiguratore {
                 }
             }
         }
+
+        creaVisite();
         configuratore.aggiungiDatePrecluse(giorniPreclusi);
         for(LocalDate g : giorniPreclusi){
             CLI.stampaMessaggio(g.format(formatter));

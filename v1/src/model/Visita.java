@@ -1,29 +1,33 @@
 package model;
 
+import java.time.LocalDate;
+
 public class Visita {
     
     private StatiVisita stato;
-    private String data;
-    private String mese;
+    LocalDate dataVisita;
     private TipoVisita tipo;
 
-    public Visita(String data, String mese, TipoVisita tipo) {
-        this.stato = StatiVisita.VISITA_PROPOSTA;
-        this.data = data;
-        this.mese = mese;
+    //costruttore per creazione visita runtime
+    public Visita(LocalDate dataVisita, TipoVisita tipo) {
+        this.stato = StatiVisita.VISITA_PROPONIBILE;
+        this.dataVisita = dataVisita;   
         this.tipo = tipo;
     }
+
+    //costruttore per lettura xml
+    public Visita(LocalDate dataVisita, TipoVisita tipo, StatiVisita stato) {
+        this.stato = stato;
+        this.dataVisita = dataVisita;   
+        this.tipo = tipo;
+    }   
 
     public StatiVisita getStato() {
         return stato;
     }
 
-    public String getData() {
-        return data;
-    }
-
-    public String getMese() {
-        return mese;
+    public LocalDate getDataVisita() {
+        return dataVisita;
     }
 
     public TipoVisita getTipo() {
@@ -33,5 +37,9 @@ public class Visita {
     public void cambiaStato( ) {
        //TODO: implement
     }
-}
 
+    @Override
+    public String toString() {
+        return this.tipo.toString() + this.dataVisita.toString();
+    }
+}

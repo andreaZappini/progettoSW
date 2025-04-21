@@ -1,4 +1,10 @@
 package model;
+
+import java.time.LocalDate;
+import java.time.format.TextStyle;
+import java.util.ArrayList;
+import java.util.Locale;
+
 public enum Giorni {
     LUNEDI("lunedi"),
     MARTEDI("martedi"),
@@ -25,5 +31,14 @@ public enum Giorni {
             }
         }
         throw new IllegalArgumentException("Nessun giorno corrisponde alla stringa: " + gg);
-    } 
+    }
+
+    public static boolean equalsGiorno(ArrayList<Giorni> giorni, LocalDate giorno) {
+        for (Giorni g : giorni) {
+            if (g.getdescrizione().equals(giorno.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ITALY).toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

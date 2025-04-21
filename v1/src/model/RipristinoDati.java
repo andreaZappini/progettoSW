@@ -3,6 +3,7 @@ package model;
 import view.CLI;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import org.w3c.dom.Element;
@@ -27,7 +28,7 @@ public class RipristinoDati {
     }
 
     public static void salvataggioDati(Elenco<Utente> elencoUtenti, Elenco<TipoVisita> elencoTipiVisita, 
-            CorpoDati corpoDati) throws Exception{
+            CorpoDati corpoDati, Elenco<Visita> elencoVisite, Elenco<ListaDate> datePrecluse) throws Exception{
         XMLUtilities.scriviXML(
             new File("progettoSW/fileXML/utenti.xml"), elencoUtenti, "Utente");
 
@@ -36,6 +37,12 @@ public class RipristinoDati {
 
         XMLUtilities.scriviXML(
             new File("progettoSW/fileXML/luoghi.xml"), corpoDati.getElencoLuoghi(), "Luoghi");
+
+        XMLUtilities.scriviXML(
+            new File("progettoSW/fileXML/visite.xml"), elencoVisite, "Visite");
+
+        XMLUtilities.scriviXML(
+            new File("progettoSW/fileXML/datePrecluse.xml"), datePrecluse, "Date");
 
         String[] dati = {"false", corpoDati.getAmbitoTerritoriale(), 
                 String.valueOf(corpoDati.getNumeroMassimoIscrittiFruitore())};
@@ -128,6 +135,30 @@ public class RipristinoDati {
         return l;
     }
 
+    private static ListaDate creaDate(Element elemento) {
+        String chiave = elemento.getElementsByTagName("chiave").item(0).getTextContent().trim();
+    
+        NodeList dateNodes = elemento.getElementsByTagName("data");
+        ArrayList<LocalDate> dateList = new ArrayList<>();
+    
+        for (int i = 0; i < dateNodes.getLength(); i++) {
+            String dataStr = dateNodes.item(i).getTextContent().trim();
+            LocalDate data = LocalDate.parse(dataStr);
+            dateList.add(data);
+        }
+    
+        return new ListaDate(chiave, dateList);
+    }
+    
+
+    private static Visita creaVisita(Element elemento, Elenco<TipoVisita> elencoTipiVisita){
+        String dataVisitaStr = elemento.getElementsByTagName("dataVisita").item(0).getTextContent();
+        LocalDate dataVisita = LocalDate.parse(dataVisitaStr);
+        String tipoVisitaStr = elemento.getElementsByTagName("tipo").item(0).getTextContent();
+        TipoVisita tipo = elencoTipiVisita.getElementByKey(tipoVisitaStr);
+        return new Visita(dataVisita, tipo);
+    }
+
     public static String[] datiRipristino() throws Exception{
         
         return XMLUtilities.leggiXML(
@@ -155,8 +186,20 @@ public class RipristinoDati {
             "Luoghi",
             elemento -> creaLuogo(elemento, elencoTipiVisita)
         );
-        
-        return new DatiCondivisi(elencoUtenti, elencoTipiVisita, elencoLuoghi);
 
+        Elenco<ListaDate> datePrecluse = XMLUtilities.leggiXML(
+            new File("progettoSW/fileXML/datePrecluse.xml"),
+            "datePrecluse",
+            elemento -> creaDate(elemento)
+        );
+
+        Elenco<Visita> elencoVisite = XMLUtilities.leggiXML(
+            new File("progettoSW/fileXML/visite.xml"),
+            "Visite",  
+            elemento -> creaVisita(elemento, elencoTipiVisita)
+        );
+
+        return new DatiCondivisi(elencoUtenti, elencoTipiVisita, elencoLuoghi, 
+            elencoVisite, datePrecluse);
     }
 }

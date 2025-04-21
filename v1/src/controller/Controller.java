@@ -1,5 +1,8 @@
 package controller;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+
 import model.*;
 import view.CLI;
 
@@ -9,7 +12,8 @@ public class Controller{
     private static Elenco<Utente> elencoUtenti = new Elenco<>();
     private static Elenco<Luogo> elencoLuoghi = new Elenco<>();
     private static Elenco<TipoVisita> elencoTipiVisita = new Elenco<>();
-    // private static Elenco<Visita> elencoVisite = new Elenco<>();
+    private static Elenco<Visita> elencoVisite = new Elenco<>();
+    private static Elenco<ListaDate> datePrecluse = new Elenco<>();
     private static boolean working;
 
     public static void start() throws Exception{
@@ -29,6 +33,8 @@ public class Controller{
             elencoUtenti = dati.getElencoUtenti();
             elencoTipiVisita = dati.getElencoTipiVisita();
             elencoLuoghi = dati.getElencoLuoghi();
+            elencoVisite = dati.getVisite();
+            datePrecluse = dati.getDatePrecluse();
 
             corpoDati.ripristinaElenco(elencoLuoghi);
         }else{
@@ -58,7 +64,7 @@ public class Controller{
                 }
             }
             ControllerConfiguratore cc = new ControllerConfiguratore(
-                (Configuratore)x, corpoDati, elencoUtenti, elencoTipiVisita);
+                (Configuratore)x, corpoDati, elencoUtenti, elencoTipiVisita, elencoVisite, datePrecluse);
             corpoDati = cc.primaConfigurazione();
         }
 
@@ -92,7 +98,7 @@ public class Controller{
             switch(x.getClass().getSimpleName()){
                 case "Configuratore":
                     Configuratore config = (Configuratore)x;
-                    ControllerConfiguratore cc = new ControllerConfiguratore(config, corpoDati, elencoUtenti, elencoTipiVisita);
+                    ControllerConfiguratore cc = new ControllerConfiguratore(config, corpoDati, elencoUtenti, elencoTipiVisita, elencoVisite, datePrecluse);
                     working = cc.start();    
                     break;
                 case "Volontario":
@@ -106,6 +112,6 @@ public class Controller{
             }
         }
         CLI.chiudiScanner();
-        RipristinoDati.salvataggioDati(elencoUtenti, elencoTipiVisita, corpoDati);
+        RipristinoDati.salvataggioDati(elencoUtenti, elencoTipiVisita, corpoDati, elencoVisite, datePrecluse);
     }
 }

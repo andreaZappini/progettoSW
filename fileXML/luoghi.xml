@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Luoghi>
     <Luogo>
-        <codiceLuogo>qualcosa</codiceLuogo>
-        <descrizione>qualcosa</descrizione>
-        <collocazioneGeografica>montagna</collocazioneGeografica>
+        <codiceLuogo>l</codiceLuogo>
+        <descrizione>l</descrizione>
+        <collocazioneGeografica>l</collocazioneGeografica>
         <visite>
-            <elemento>visita a castello</elemento>
+            <elemento>l</elemento>
         </visite>
     </Luogo>
 </Luoghi>
