@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Luoghi>
     <Luogo>
-        <codiceLuogo>i</codiceLuogo>
-        <descrizione>i</descrizione>
-        <collocazioneGeografica>i</collocazioneGeografica>
+        <codiceLuogo>w</codiceLuogo>
+        <descrizione>e</descrizione>
+        <collocazioneGeografica>r</collocazioneGeografica>
         <visite>
             <elemento>t</elemento>
         </visite>

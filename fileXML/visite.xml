@@ -1,28 +1,2 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<Visite>
-    <Visita>
-        <stato>VISITA_PROPONIBILE</stato>
-        <dataVisita>2236-02-15</dataVisita>
-        <tipo>t</tipo>
-    </Visita>
-    <Visita>
-        <stato>VISITA_PROPONIBILE</stato>
-        <dataVisita>2236-01-25</dataVisita>
-        <tipo>t</tipo>
-    </Visita>
-    <Visita>
-        <stato>VISITA_PROPONIBILE</stato>
-        <dataVisita>2236-02-08</dataVisita>
-        <tipo>t</tipo>
-    </Visita>
-    <Visita>
-        <stato>VISITA_PROPONIBILE</stato>
-        <dataVisita>2236-01-18</dataVisita>
-        <tipo>t</tipo>
-    </Visita>
-    <Visita>
-        <stato>VISITA_PROPONIBILE</stato>
-        <dataVisita>2236-02-01</dataVisita>
-        <tipo>t</tipo>
-    </Visita>
-</Visite>
+<Visite/>

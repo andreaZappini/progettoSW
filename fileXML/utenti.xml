@@ -6,7 +6,6 @@
         <primoAccesso>false</primoAccesso>
     </Configuratore>
     <Volontario>
-        <elencoTipiVisita/>
         <username>volo1</username>
         <password>1</password>
         <primoAccesso>true</primoAccesso>
