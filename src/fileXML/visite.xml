@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Visite>
+    <ListaVisite>
+        <chiave>0</chiave>
+        <visite/>
+    </ListaVisite>
+    <ListaVisite>
+        <chiave>1</chiave>
+        <visite/>
+    </ListaVisite>
+</Visite>
