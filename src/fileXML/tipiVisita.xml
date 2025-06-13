@@ -6,18 +6,15 @@
         <puntoIncontro>t</puntoIncontro>
         <periodoAnno>t</periodoAnno>
         <giorniDisponibili>
-            <elemento>SABATO</elemento>
+            <elemento>DOMENICA</elemento>
         </giorniDisponibili>
         <oraInizio>5.0</oraInizio>
         <durata>6</durata>
-        <bigliettoNecessario>7</bigliettoNecessario>
+        <bigliettoNecessario>y</bigliettoNecessario>
         <minPartecipanti>8</minPartecipanti>
         <maxPartecipanti>9</maxPartecipanti>
         <elencoVolontari>
             <elemento>volo1</elemento>
         </elencoVolontari>
-        <elencoLuoghi>
-            <elemento>p</elemento>
-        </elencoLuoghi>
     </TipoVisita>
 </TipiVisita>

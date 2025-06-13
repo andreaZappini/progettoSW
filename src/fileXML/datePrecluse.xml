@@ -1,19 +1,2 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<Date>
-    <ListaDate>
-        <chiave>0</chiave>
-        <date/>
-    </ListaDate>
-    <ListaDate>
-        <chiave>1</chiave>
-        <date/>
-    </ListaDate>
-    <ListaDate>
-        <chiave>2</chiave>
-        <date/>
-    </ListaDate>
-    <ListaDate>
-        <chiave>3</chiave>
-        <date/>
-    </ListaDate>
-</Date>
+<Date/>

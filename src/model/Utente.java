@@ -24,14 +24,6 @@ public abstract class Utente {
         return this.primoAccesso;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
     public void setPassword(String psw){
         this.password = psw;
     }

@@ -1,5 +1,0 @@
-sistema metodi xml per visita, fruitore e altri che non vanno dopo modifiche --> controlla che elenchi servono per ricavare i fruitori --> ok(?)
-aggiungi archivio visite --> ok
-aggiungi logica cambio stato visite--> ok
-controlla che non vengano effettuate piu visite dello stesso tipo nello stesso giorno --> conmtrolla bene
-controlla perche non va piu la gestione visite

@@ -1,5 +1,7 @@
 package model;
 
+import view.CLI;
+
 import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -29,21 +31,15 @@ public class RipristinoDati {
     }
 
     public static void salvataggioDati() throws Exception {
-        XMLUtilities.scriviXML(new File("src/fileXML/utentiBE.xml"), DatiCondivisi.getElencoUtenti(), "Utente");
+        XMLUtilities.scriviXML(new File("src/fileXML/utenti.xml"), DatiCondivisi.getElencoUtenti(), "Utente");
         XMLUtilities.scriviXML(new File("src/fileXML/tipiVisita.xml"), DatiCondivisi.getElencoTipiVisita(), "TipiVisita");
         XMLUtilities.scriviXML(new File("src/fileXML/luoghi.xml"), DatiCondivisi.getElencoLuoghi(), "Luoghi");
         XMLUtilities.scriviXML(new File("src/fileXML/visite.xml"), DatiCondivisi.getVisite(), "Visite");
         XMLUtilities.scriviXML(new File("src/fileXML/datePrecluse.xml"), DatiCondivisi.getDatePrecluse(), "Date");
-        XMLUtilities.scriviArchivioXML(new File("src/fileXML/archivioVisite.xml"), DatiCondivisi.getArchivio());
 
         String[] dati = {"false", DatiCondivisi.getAmbitoTerritoriale(), 
-                         String.valueOf(DatiCondivisi.getNumeroMassimoIscrittiFruitore()),
-                         DatiCondivisi.getRaccoltaDisponibilitaMese1().toString(),
-                         DatiCondivisi.getRaccoltaDisponibilitaMese2().toString(),
-                         GestioneTempo.getInstance().getDataCorrente().toString()
-                        };
-        String[] campi = {"primaConfigurazione", "ambitoTerritoriale", "numeroMassimoIscritti", 
-        "raccoltaDisponibilitaMese1", "raccoltaDisponibilitaMese2", "dataUltimaEsecuzione"};
+                         String.valueOf(DatiCondivisi.getNumeroMassimoIscrittiFruitore())};
+        String[] campi = {"primaConfigurazione", "ambitoTerritoriale", "numeroMassimoIscritti"};
         XMLUtilities.scriviXML(new File("src/fileXML/datiExtra.xml"), dati, campi, "datiDiConfigurazione");
     }
 
@@ -54,36 +50,15 @@ public class RipristinoDati {
         boolean primoAccesso = Boolean.parseBoolean(
             elemento.getElementsByTagName("primoAccesso").item(0).getTextContent());
 
-        if (nomeNodo.equalsIgnoreCase("Configuratore")) 
+        if (nomeNodo.equalsIgnoreCase("Configuratore")) {
             return new Configuratore(username, password, primoAccesso);
-
-        else if (nomeNodo.equalsIgnoreCase("Fruitore")) 
-           return new Fruitore(username, password);
-
-        else if (nomeNodo.equalsIgnoreCase("Volontario")) {
-            
+        } else if (nomeNodo.equalsIgnoreCase("Volontario")) {
+            NodeList tipiVisitaNodes = elemento.getElementsByTagName("elemento");
             ArrayList<String> listaTipiVisita = new ArrayList<>();
-            NodeList tipiVisitaNodes = elemento.getElementsByTagName("elencoTipiVisita");
-            Element tipiVisitaElement = (Element) tipiVisitaNodes.item(0);
-            NodeList singoloTipoVisitaNodes = tipiVisitaElement.getElementsByTagName("elemento");
-
-            for(int i = 0; i < singoloTipoVisitaNodes.getLength(); i++) {
-                String titolo = singoloTipoVisitaNodes.item(i).getTextContent().trim();
-                listaTipiVisita.add(titolo);
+            for (int i = 0; i < tipiVisitaNodes.getLength(); i++) {
+                listaTipiVisita.add(tipiVisitaNodes.item(i).getTextContent().trim());
             }
-
-            Elenco<LocalDate> listaDisponibilita = new Elenco<>();
-            NodeList disponibilitaNodes = elemento.getElementsByTagName("elencoDisponibilita");
-            Element disponibilitaElement = (Element) disponibilitaNodes.item(0);
-            NodeList singolaDisponibilitaNodes = disponibilitaElement.getElementsByTagName("elemento");
-            
-            for (int i = 0; i < singolaDisponibilitaNodes.getLength(); i++) {
-                LocalDate data = LocalDate.parse(singolaDisponibilitaNodes.item(i).getTextContent().trim());
-                listaDisponibilita.aggiungi(data);
-            }
-
             Volontario v = new Volontario(username, password, primoAccesso);
-            v.setElencoDisponibilita(listaDisponibilita);
             elencoVisiteVolontario.put(v, listaTipiVisita);
             return v;
         } else {
@@ -96,25 +71,18 @@ public class RipristinoDati {
         String descrizione = elemento.getElementsByTagName("descrizione").item(0).getTextContent();
         String puntoIncontro = elemento.getElementsByTagName("puntoIncontro").item(0).getTextContent();
         String periodoAnno = elemento.getElementsByTagName("periodoAnno").item(0).getTextContent();
-        String bigliettoNecessario = elemento.getElementsByTagName("bigliettoNecessario").item(0).getTextContent();    
-
+        String bigliettoNecessario = elemento.getElementsByTagName("bigliettoNecessario").item(0).getTextContent();
         ArrayList<Giorni> giorniDisponibili = new ArrayList<>();
-        NodeList giorniNodes = elemento.getElementsByTagName("giorniDisponibili");
-        Element giorniElement = (Element) giorniNodes.item(0);
-        NodeList singoloGiornoNodes = giorniElement.getElementsByTagName("elemento");
-
-        for (int i = 0; i < singoloGiornoNodes.getLength(); i++) {
-            String giornoStr = singoloGiornoNodes.item(i).getTextContent().trim();
-            if (giornoStr.isEmpty()) continue;
+        NodeList giorniNodes = elemento.getElementsByTagName("giorno");
+        for (int i = 0; i < giorniNodes.getLength(); i++) {
+            String giornoStr = giorniNodes.item(i).getTextContent();
             try {
-                Giorni giorno = Giorni.valueOf(giornoStr);
+                Giorni giorno = Giorni.fromString(giornoStr);
                 giorniDisponibili.add(giorno);
             } catch (IllegalArgumentException e) {
-                System.err.println("Errore nel parsing del giorno: '" + giornoStr + "'");
+                CLI.stampaMessaggio("Errore: Giorno non valido trovato nel XML - " + giornoStr);
             }
         }
-    
-        
         double oraInizio = Double.parseDouble(elemento.getElementsByTagName("oraInizio").item(0).getTextContent());
         int durata = Integer.parseInt(elemento.getElementsByTagName("durata").item(0).getTextContent());
         int minPartecipanti = Integer.parseInt(elemento.getElementsByTagName("minPartecipanti").item(0).getTextContent());
@@ -133,40 +101,12 @@ public class RipristinoDati {
         return v;
     }
 
-    private static Visita creaArchivio(Element elemento, Elenco<TipoVisita> elencoTipiVisita) {
-        LocalDate dataVisita = LocalDate.parse(elemento.getElementsByTagName("dataVisita").item(0).getTextContent());
-        String titolo = elemento.getElementsByTagName("titolo").item(0).getTextContent();
-        TipoVisita tipo = elencoTipiVisita.getElementByKey(titolo);
-        StatiVisita stato = StatiVisita.valueOf(elemento.getElementsByTagName("stato").item(0).getTextContent());
-
-        HashMap<Fruitore, Integer> iscrizioni = new HashMap<>();
-        NodeList iscrizioniNodes = elemento.getElementsByTagName("iscrizioni");
-        Element iscrizioniElement = (Element) iscrizioniNodes.item(0);
-        NodeList singolaIscrizioneNodes = iscrizioniElement.getElementsByTagName("iscrizione");
-
-        for (int i = 0; i < singolaIscrizioneNodes.getLength(); i++) {
-            Element iscrizioneElement = (Element) singolaIscrizioneNodes.item(i);
-            String fruitoreUsername = iscrizioneElement.getElementsByTagName("fruitore").item(0).getTextContent();
-            int numPersone = Integer.parseInt(iscrizioneElement.getElementsByTagName("numPersone").item(0).getTextContent());
-            Fruitore fruitore = DatiCondivisi.getFruitori().getElementByKey(fruitoreUsername);
-            if (fruitore != null) {
-                iscrizioni.put(fruitore, numPersone);
-            }
-        }
-
-        int iscritti = Integer.parseInt(elemento.getElementsByTagName("iscritti").item(0).getTextContent());
-
-        return new Visita(dataVisita, tipo, stato, iscrizioni, iscritti);
-    }
-
     public static void datiCondivisi() throws Exception {
-        Elenco<Utente> elencoUtenti = XMLUtilities.leggiXML(new File("src/fileXML/utentiBE.xml"), "Utenti", elemento -> creaUtente(elemento));
-        Elenco<Fruitore> fruitori = elencoUtenti.getClassiUtente(Fruitore.class);
+        Elenco<Utente> elencoUtenti = XMLUtilities.leggiXML(new File("src/fileXML/utenti.xml"), "Utenti", elemento -> creaUtente(elemento));
         Elenco<TipoVisita> elencoTipiVisita = XMLUtilities.leggiXML(new File("src/fileXML/tipiVisita.xml"), "TipoVisita", elemento -> creaTipoVisita(elemento, elencoUtenti));
         Elenco<Luogo> elencoLuoghi = XMLUtilities.leggiXML(new File("src/fileXML/luoghi.xml"), "Luoghi", elemento -> creaLuogo(elemento, elencoTipiVisita));
-        Elenco<ListaDate> datePrecluse = XMLUtilities.leggiXML(new File("src/fileXML/datePrecluse.xml"), "Date", elemento -> creaDate(elemento));
-        Elenco<ListaVisite> elencoVisite = XMLUtilities.leggiListaVisiteXML(new File("src/fileXML/visite.xml"), elencoTipiVisita, fruitori);
-        
+        Elenco<LocalDate> datePrecluse = XMLUtilities.leggiXML(new File("src/fileXML/datePrecluse.xml"), "Date", elemento -> creaDate(elemento));
+        Elenco<Visita> elencoVisite = XMLUtilities.leggiXML(new File("src/fileXML/visite.xml"), "Visite", elemento -> creaVisita(elemento, elencoTipiVisita));
 
         DatiCondivisi.setVisite(elencoVisite);
         DatiCondivisi.setElencoLuoghi(elencoLuoghi);
@@ -184,38 +124,7 @@ public class RipristinoDati {
             }
         }
 
-        for(Luogo l : elencoLuoghi.getElenco().values())
-            for(TipoVisita t : l.getElencoVisite().getElenco().values())
-                t.aggiungiLuogo(l);
-
-        Elenco<Visita> archivio = XMLUtilities.leggiArchivioXML(new File("src/fileXML/archivioVisite.xml"), elencoTipiVisita, fruitori);
-        DatiCondivisi.setArchivioVisite(archivio);
-
-        for(Visita v : DatiCondivisi.getVisite().getElementByKey("0").getVisite().getElenco().values()){
-            System.out.println(v.toString());
-            for(Fruitore f : v.getIscrizioni().keySet()) {
-                System.out.println(f.toString());
-                System.out.println(fruitori.contiene(f.toString()));
-                if(fruitori.contiene(f.toString())) {
-                    f.aggiungiPrenotazione(v);
-                } else {
-                    System.err.println("Fruitore " + f.getUsername() + " non trovato nell'elenco fruitori.");
-                }
-            }
-        }
-
-        for(Visita v : DatiCondivisi.getArchivio().getElenco().values()){
-            System.out.println(v.toString());
-            for(Fruitore f : v.getIscrizioni().keySet()) {
-                System.out.println(f.toString());
-                System.out.println(fruitori.contiene(f.toString()));
-                if(fruitori.contiene(f.toString())) {
-                    f.aggiungiPrenotazione(v);
-                } else {
-                    System.err.println("Fruitore " + f.getUsername() + " non trovato nell'elenco fruitori.");
-                }
-            }
-        }
+        System.out.println("date recuperate" + datePrecluse.getElenco().size());
     }
 
     private static Luogo creaLuogo(Element elemento, Elenco<TipoVisita> visite) {
@@ -235,31 +144,17 @@ public class RipristinoDati {
         return l;
     }
 
-    private static ListaDate creaDate(Element elemento) {
-        String chiave = elemento.getElementsByTagName("chiave").item(0).getTextContent();
-        ListaDate listaDate = new ListaDate(chiave);
-    
-        // Prendi il nodo <date>
-        NodeList dateNodes = elemento.getElementsByTagName("date");
-        if (dateNodes.getLength() > 0) {
-            Element dateElement = (Element) dateNodes.item(0);
-            NodeList elementi = dateElement.getElementsByTagName("elemento");
-    
-            for (int i = 0; i < elementi.getLength(); i++) {
-                String dataStr = elementi.item(i).getTextContent().trim();
-                try {
-                    LocalDate data = LocalDate.parse(dataStr);
-                    listaDate.aggiungiData(data);
-                } catch (Exception e) {
-                    System.err.println("Errore nel parsing della data: '" + dataStr + "'");
-                }
-            }
-        }
-    
-        return listaDate;
+    private static LocalDate creaDate(Element elemento) {
+        return LocalDate.parse(elemento.getTextContent().trim());
     }
-    
 
+    private static Visita creaVisita(Element elemento, Elenco<TipoVisita> elencoTipiVisita) {
+        String dataVisitaStr = elemento.getElementsByTagName("dataVisita").item(0).getTextContent();
+        LocalDate dataVisita = LocalDate.parse(dataVisitaStr);
+        String tipoVisitaStr = elemento.getElementsByTagName("tipo").item(0).getTextContent();
+        TipoVisita tipo = elencoTipiVisita.getElementByKey(tipoVisitaStr);
+        return new Visita(dataVisita, tipo);
+    }
 
     public static boolean datiRipristino() throws Exception {
         String[] dati = XMLUtilities.leggiXML(
@@ -270,18 +165,6 @@ public class RipristinoDati {
         if (!Boolean.parseBoolean(dati[0])) {
             DatiCondivisi.setAmbitoTerritoriale(dati[1]);
             DatiCondivisi.setNumeroMassimoIscrittiFruitore(Integer.parseInt(dati[2]));
-            if(dati[3].equals("APERTA")) {
-                DatiCondivisi.apriRaccoltaDisponibilitaMese1();
-            }else{
-                DatiCondivisi.chiudiRaccoltaDisponibilitaMese1();
-            }
-
-            if(dati[4].equals("APERTA")) {
-                DatiCondivisi.apriRaccoltaDisponibilitaMese2();
-            }else{
-                DatiCondivisi.chiudiRaccoltaDisponibilitaMese2();
-            }
-            DatiCondivisi.setDataUltimaEsecuzione(LocalDate.parse(dati[5]));
         }
         return Boolean.parseBoolean(dati[0]);
     }

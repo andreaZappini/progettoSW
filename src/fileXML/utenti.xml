@@ -5,18 +5,12 @@
         <password>1</password>
         <primoAccesso>false</primoAccesso>
     </Configuratore>
-    <Fruitore>
-        <username>fruitore1</username>
-        <password>1</password>
-        <primoAccesso>false</primoAccesso>
-    </Fruitore>
     <Volontario>
         <elencoTipiVisita>
             <elemento>t</elemento>
         </elencoTipiVisita>
-        <elencoDisponibilita/>
         <username>volo1</username>
-        <password>1</password>
+        <password>x</password>
         <primoAccesso>true</primoAccesso>
     </Volontario>
 </Utente>

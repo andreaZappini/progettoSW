@@ -7,13 +7,9 @@ public class ListaDate {
     private String chiave;
     private ArrayList<LocalDate> date;
 
-    public ListaDate(String chiave) {
+    public ListaDate(String chiave, ArrayList<LocalDate> date) {
         this.chiave = chiave;
-        this.date = new ArrayList<>();
-    }
-
-    public void pulisciDate() {
-        this.date.clear();
+        this.date = date;
     }
 
     public ArrayList<LocalDate> getDate() {
@@ -27,10 +23,6 @@ public class ListaDate {
 
     public void aggiungiDate(ArrayList<LocalDate> date) {
         this.date.addAll(date);
-    }
-
-    public void aggiungiData(LocalDate data) {
-        this.date.add(data);
     }
 }
 

@@ -54,49 +54,24 @@ public class Configuratore extends Utente{
             int durata,
             String bigliettoNecessario,
             int minPartecipanti,
-            int maxPartecipanti){
+            int maxPartecipanti,
+            Elenco<Volontario> elencoVolontari){
 
         TipoVisita x = new TipoVisita(titolo, descrizione, puntoIncontro, periodoAnno, giorniDisponibili,
                           oraInizio, durata, bigliettoNecessario,
                           minPartecipanti, maxPartecipanti);
 
+        for (Volontario v : elencoVolontari.getElenco().values()) {
+            x.aggiungiVolontario(v);
+        }
         DatiCondivisi.aggiungiTipoVisita(x);
     }
-
 
     public void setNumeroMassimoIscrittiFruitore(int num){
         DatiCondivisi.setNumeroMassimoIscrittiFruitore(num);
     }
     
     public void aggiungiDatePrecluse(LocalDate datePrecluse) {
-        DatiCondivisi.aggiungiDataMese3(datePrecluse);
-    }
-
-    public void rimuoviTipoVisitaDaLuogo(Luogo l, TipoVisita t) {
-        l.rimuoviDaElencoTipiVisita(t);
-        for(Volontario v : t.getElencoVolontari().getElenco().values()){
-            v.rimuoviTipoVisita(t);
-            t.rimuoviVolontario(v);
-        }
-    }
-
-    public void rimuoviLuogo(Luogo l){
-        DatiCondivisi.rimuoviLuogo(l);
-        for(TipoVisita t : l.getElencoVisite().getElenco().values()){
-            t.rimuoviLuogo(l);
-            for(Volontario v : t.getElencoVolontari().getElenco().values()){
-                v.rimuoviTipoVisita(t);
-                t.rimuoviVolontario(v);
-            }
-        }
-    }
-
-    public void rimuoviVolontario(Volontario v) {
-
-        for (TipoVisita t : v.getElencoTipiVisita().getElenco().values()) {
-            t.rimuoviVolontario(v);
-        }
-
-        DatiCondivisi.rimuoviVolontario(v);
+        DatiCondivisi.aggiungiData(datePrecluse);
     }
 }

@@ -7,14 +7,15 @@ public class Controller{
     
     private static boolean working;
 
-    public static void start(boolean primaConfigurazione) throws Exception{
+    public static void start() throws Exception{
         
+        boolean primaConfigurazione = RipristinoDati.datiRipristino();
+        // recuperaDatiXML();
+
+        System.out.println(primaConfigurazione);
         if(!primaConfigurazione){
-
             RipristinoDati.datiCondivisi();
-            GestioneTempo.getInstance().buchiTemporali();
         }else{
-
             RipristinoDati.primoConfiguratore();
             boolean primoAccesso = true;
             Utente x = null;
@@ -45,22 +46,7 @@ public class Controller{
 
         working = true;
         while(working){
-
-            int classeUtente = CLI.sceltaInt("Seleziona la classe dell'utente che vuoi creare:\n1) Configuratore/Volontario\n2) Fruitore");
-            switch(classeUtente){
-                case 1:
-                    loginConfiguratoreVolontario();
-                    break;
-                case 2:
-                    ControllerFruitore.start();
-                    break;
-            }
-        }
-        RipristinoDati.salvataggioDati();
-    }
-
-    private static boolean loginConfiguratoreVolontario() throws Exception{
-        Utente x;
+            Utente x;
             while(true){
                 String[] datiUtente = CLI.login();
                 String username = datiUtente[0];
@@ -92,13 +78,16 @@ public class Controller{
                     working = cc.start();    
                     break;
                 case "Volontario":
-                    Volontario vol = (Volontario)x;
-                    ControllerVolontario cv = new ControllerVolontario(vol);
-                    cv.start();
+                    //scelta  = CLI.sceltaInt(AZIONI_VOLONTARIO);
+                    break;
+                case "Fruitore":
+                    //scelta = CLI.sceltaInt(AZIONI_UTENTE);
                     break;
                 default:
                     break;
             }
-        return working;
+        }
+        CLI.chiudiScanner();
+        RipristinoDati.salvataggioDati();
     }
 }
