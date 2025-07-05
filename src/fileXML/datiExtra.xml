@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <datiDiConfigurazione>
-  <primaConfigurazione>false</primaConfigurazione>
+  <primaConfigurazione>true</primaConfigurazione>
   <ambitoTerritoriale>m</ambitoTerritoriale>
   <numeroMassimoIscritti>6</numeroMassimoIscritti>
+  <raccoltaDisponibilitaMese1>CHIUSA</raccoltaDisponibilitaMese1>
+  <raccoltaDisponibilitaMese2>CHIUSA</raccoltaDisponibilitaMese2>
+  <dataUltimaEsecuzione>2576-06-24</dataUltimaEsecuzione>
 </datiDiConfigurazione>

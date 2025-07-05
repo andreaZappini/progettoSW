@@ -5,17 +5,21 @@ import view.CLI;
 
 public class Controller{
     
+    private static final String CATEGORIE = "\n----------------------------------------------------------------------------------------------"
+            + "\nBenvenuto! Scegli una delle seguenti alternative: \n\n" +
+            "1. Configuratore/Volontario\n" +
+            "2. Fruitore\n" +
+            "--> ";
     private static boolean working;
 
-    public static void start() throws Exception{
+    public static void start(boolean primaConfigurazione) throws Exception{
         
-        boolean primaConfigurazione = RipristinoDati.datiRipristino();
-        // recuperaDatiXML();
-
-        System.out.println(primaConfigurazione);
         if(!primaConfigurazione){
+
             RipristinoDati.datiCondivisi();
+            GestioneTempo.getInstance().buchiTemporali();
         }else{
+
             RipristinoDati.primoConfiguratore();
             boolean primoAccesso = true;
             Utente x = null;
@@ -46,7 +50,22 @@ public class Controller{
 
         working = true;
         while(working){
-            Utente x;
+
+            int classeUtente = CLI.sceltaInt(CATEGORIE);
+            switch(classeUtente){
+                case 1:
+                    loginConfiguratoreVolontario();
+                    break;
+                case 2:
+                    ControllerFruitore.start();
+                    break;
+            }
+        }
+        RipristinoDati.salvataggioDati();
+    }
+
+    private static boolean loginConfiguratoreVolontario() throws Exception{
+        Utente x;
             while(true){
                 String[] datiUtente = CLI.login();
                 String username = datiUtente[0];
@@ -78,16 +97,13 @@ public class Controller{
                     working = cc.start();    
                     break;
                 case "Volontario":
-                    //scelta  = CLI.sceltaInt(AZIONI_VOLONTARIO);
-                    break;
-                case "Fruitore":
-                    //scelta = CLI.sceltaInt(AZIONI_UTENTE);
+                    Volontario vol = (Volontario)x;
+                    ControllerVolontario cv = new ControllerVolontario(vol);
+                    cv.start();
                     break;
                 default:
                     break;
             }
-        }
-        CLI.chiudiScanner();
-        RipristinoDati.salvataggioDati();
+        return working;
     }
 }

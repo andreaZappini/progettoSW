@@ -1,11 +1,2 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<Luoghi>
-    <Luogo>
-        <codiceLuogo>p</codiceLuogo>
-        <descrizione>o</descrizione>
-        <collocazioneGeografica>i</collocazioneGeografica>
-        <visite>
-            <elemento>t</elemento>
-        </visite>
-    </Luogo>
-</Luoghi>
+<Luoghi/>

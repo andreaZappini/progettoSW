@@ -1,62 +1,48 @@
 package model;
 
 import java.time.*;
-import java.time.temporal.ChronoUnit;
 
 public class GestioneTempo {
 
     private YearMonth mesePartenza;
 
-    private static final LocalDate DATA_INIZIALE = LocalDate.of(2025, 4, 18);
-    private static final Instant TEMPO_REALE_INIZIALE = Instant.parse("2025-04-18T00:00:00Z");
-    private static final long SECONDI_PER_GIORNO_SIMULATO = 2;
+    private static final LocalDate DATA_INIZIALE = LocalDate.of(2025, 5, 11);
+    private static final Instant TEMPO_REALE_INIZIALE = Instant.parse("2025-05-11T00:00:00Z");
+    private static final long SECONDI_PER_GIORNO_SIMULATO = 20;
 
     // Singleton
     private static final GestioneTempo instance = new GestioneTempo();
 
     private GestioneTempo() {
         this.mesePartenza = YearMonth.from(getDataCorrente());
-        // for(int i = 0; i < 4; i++) {
-        //     DatiCondivisi.aggiungiListaDate(new ListaDate(String.valueOf(i), new ArrayList<LocalDate>()));
-        // }
-        checkCambioMese();
+        for(int i = 0; i < 4; i++) {
+            DatiCondivisi.aggiungiListaDate(new ListaDate(String.valueOf(i)));
+        }
     }
 
-    // public ArrayList<LocalDate> getDatePrecluseMese(int n) {
-    //     return DatiCondivisi.getDatePrecluse().getElementByKey(String.valueOf(n)).getDate();
-    // }
-
-    // public void setDatePrecluse(ArrayList<LocalDate> nuoveDate) {
-    //     // Calcola la chiave corrispondente al mese i+3
-    //     LocalDate oggi = getDataCorrente();
-    //     YearMonth meseInCorso = YearMonth.from(oggi);
-    //     YearMonth meseFuturo = oggi.getDayOfMonth() < 15 ? meseInCorso.plusMonths(3) : meseInCorso.plusMonths(4);
+    public void buchiTemporali() { 
+        LocalDate ultimaEsecuzione = DatiCondivisi.getDataUltimaEsecuzione();
+        LocalDate oggi = getDataCorrente();
     
-    //     // Trova quale chiave (0-3) è associata al meseFuturo
-    //     int indice = -1;
-    //     for (int i = 0; i < 4; i++) {
-    //         ArrayList<LocalDate> date = DatiCondivisi.getDatePrecluse().getElementByKey(String.valueOf(i)).getDate();
-    //         if (!date.isEmpty()) {
-    //             YearMonth mese = YearMonth.from(date.get(0));
-    //             if (mese.equals(meseFuturo)) {
-    //                 indice = i;
-    //                 break;
-    //             }
-    //       }
-    //    }
+        // Trova il primo giorno 16 dopo o uguale all’ultima esecuzione
+        LocalDate inizio = ultimaEsecuzione.getDayOfMonth() < 16
+            ? ultimaEsecuzione.withDayOfMonth(16)
+            : ultimaEsecuzione.withDayOfMonth(16).plusMonths(1);
     
-    //     // Se non è stato trovato, usa la chiave 3 (quella vuota più lontana)
-    //     if (indice == -1) {
-    //         indice = 3;
-    //     }
-    
-    //     for (LocalDate data : nuoveDate) {
-    //         if (!DatiCondivisi.getDatePrecluse().getElementByKey(String.valueOf(indice)).getDate().contains(data)) {
-    //             DatiCondivisi.getDatePrecluse().getElementByKey(String.valueOf(indice)).getDate().add(data);
-    //         }
-    //     }
-    // }
-    
+        int conteggio = 0;
+        while (!oggi.isBefore(inizio.plusMonths(1).withDayOfMonth(15))) {
+            conteggio++;
+            inizio = inizio.plusMonths(1);
+        }
+        if (conteggio > 0) {
+            DatiCondivisi.apriRaccoltaDisponibilitaMese1();
+            DatiCondivisi.chiudiRaccoltaDisponibilitaMese2();
+        }
+        aggiornaDatePrecluseMese(conteggio);
+        GestoreVisite.getInstance().aggiornaVisiteMese(conteggio);
+        DatiCondivisi.setDataUltimaEsecuzione(getDataCorrente());
+        passaggioTempo();
+    }
     
     public static GestioneTempo getInstance() {
         return instance;
@@ -68,34 +54,53 @@ public class GestioneTempo {
         return DATA_INIZIALE.plusDays(giorniSimulati);
     }
 
-    // private void aggiornaDatePrecluseMese(int mesiTrascorsi) {
-    //     for (int step = 0; step < mesiTrascorsi; step++) {
-    //         for (int i = 1; i < 4; i++) {
-    //             ArrayList<LocalDate> dateCorrenti = new ArrayList<>(
-    //                 DatiCondivisi.getDatePrecluse().getElementByKey(String.valueOf(i)).getDate()
-    //             );
-    //             DatiCondivisi.getDatePrecluse().getElementByKey(String.valueOf(i - 1)).getDate().clear();
-    //             DatiCondivisi.setDatePrecluseMese(String.valueOf(i - 1), dateCorrenti);
-    //         }
-    //         // Pulisce la lista più lontana
-    //         DatiCondivisi.getDatePrecluse().getElementByKey("3").getDate().clear();
-    //     }
-    // }
+    private void aggiornaDatePrecluseMese(int mesi){
+        if (mesi > 5) mesi = 5;
     
+        for (int step = 0; step < mesi; step++) {
+
+            for (int i = 1; i <= 3; i++) {
+                ListaDate sorgente = DatiCondivisi.getDatePrecluse().getElementByKey(String.valueOf(i));
+                ListaDate destinazione = DatiCondivisi.getDatePrecluse().getElementByKey(String.valueOf(i - 1));
     
-
-    public void checkCambioMese() {
-        LocalDate dataCorrente = getDataCorrente();
-        YearMonth meseCorrente = YearMonth.from(dataCorrente);
-
-        if (dataCorrente.getDayOfMonth() >= 15) {
-            long mesiTrascorsi = ChronoUnit.MONTHS.between(mesePartenza, meseCorrente);
-
-            if (mesiTrascorsi > 0) {
-                mesePartenza = mesePartenza.plusMonths(mesiTrascorsi);
-                //aggiornaDatePrecluseMese((int) mesiTrascorsi);
+                if (sorgente == null) {
+                    sorgente = new ListaDate(String.valueOf(i));
+                    DatiCondivisi.aggiungiListaDate(sorgente);
+                }
+                if (destinazione == null) {
+                    destinazione = new ListaDate(String.valueOf(i - 1));
+                    DatiCondivisi.aggiungiListaDate(destinazione);
+                }
+    
+                destinazione.getDate().clear();
+                destinazione.getDate().addAll(sorgente.getDate());
             }
+    
+            // Svuota "3"
+            ListaDate meseTre = DatiCondivisi.getDatePrecluse().getElementByKey("3");
+            if (meseTre != null) meseTre.getDate().clear();
         }
+    }
+
+    public void passaggioTempo() {
+        LocalDate dataCorrente = getDataCorrente();
+        LocalDate inizioUltimoPeriodo = mesePartenza.atDay(16);
+    
+        // Trova quanti "intervalli 15→15" sono passati
+        int mesiTrascorsi = 0;
+        while (!dataCorrente.isBefore(inizioUltimoPeriodo.plusMonths(mesiTrascorsi + 1))) {
+            mesiTrascorsi++;
+        }
+        if (mesiTrascorsi > 0) {
+            mesePartenza = mesePartenza.plusMonths(mesiTrascorsi);
+            aggiornaDatePrecluseMese(mesiTrascorsi);
+            GestoreVisite.getInstance().aggiornaVisiteMese(mesiTrascorsi);
+
+            DatiCondivisi.apriRaccoltaDisponibilitaMese1();
+            DatiCondivisi.chiudiRaccoltaDisponibilitaMese2();
+        }
+        GestoreVisite.getInstance().aggiornaStato();
+        
     }
 
     
@@ -114,7 +119,6 @@ public class GestioneTempo {
         return res;
     }
     
-
     public static LocalDate contieneGiorno(LocalDate inizio, LocalDate fine, int giorno) {
         LocalDate current = inizio;
         while (!current.isAfter(fine)) {

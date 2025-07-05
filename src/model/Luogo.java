@@ -45,4 +45,12 @@ public class Luogo{
     public String visualizzaVisite(){
         return this.visite.visualizza();
     }
+
+    public void rimuoviDaElencoTipiVisita(TipoVisita t){
+
+        this.visite.rimuovi(t);
+
+        if(this.getElencoVisite().vuoto())
+            DatiCondivisi.rimuoviLuogo(this);
+    }
 }

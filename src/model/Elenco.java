@@ -12,7 +12,7 @@ public class Elenco<T> {
         return this.elenco;
     }
 
-    public void aggiungi(T elemento) {
+    public void aggiungi(T elemento){
         if(contiene(elemento.toString())) {
             throw new IllegalArgumentException("Elemento già inserito! ");
         }else {
@@ -20,7 +20,7 @@ public class Elenco<T> {
         }
     }
 
-    public void aggiungi(Elenco<T> elenco) {
+    public void aggiungi(Elenco<? extends T> elenco) {
         this.elenco.putAll(elenco.getElenco());
     }
 
@@ -37,24 +37,32 @@ public class Elenco<T> {
         return elencoUtenti;
     }
     
-    public void rimuovi(T elemento) {
+    public void rimuovi(T elemento){
         if(contiene(elemento.toString())) {
-            this.elenco.remove(elemento.toString());
+            elenco.remove(elemento.toString());
         }else {
-            throw new IllegalArgumentException("Elemento NON presente!");
+            throw new IllegalArgumentException("Elemento non trovato!");
         }
+    }
+
+    public void pulisciElenco(){
+        elenco.clear();
     }
 
     public boolean contiene(String chiave) {
         return this.elenco.containsKey(chiave);
     }
 
-    public String toStringElenco() {
-        return this.elenco.toString();
-    }
+    // public String toStringElenco() {
+    //     return this.elenco.toString();
+    // }
 
     public T getElementByKey(String chiave) {
-        return this.elenco.get(chiave);
+        if(contiene(chiave)) {
+            return this.elenco.get(chiave);
+        } else {
+            throw new IllegalArgumentException("Elemento non trovato!");
+        }
     }
 
     public String visualizza() {
@@ -70,37 +78,7 @@ public class Elenco<T> {
     	return this.elenco.size();
     }
     
-    //non usato
-    public String visualizzaLuogo() {
-        StringBuffer s = new StringBuffer();
-        for (String key : this.elenco.keySet()) {
-        	Object obj = this.elenco.get(key); // Ottieni l'oggetto dalla HashMap
-            
-            if (obj instanceof Luogo) { // Controlla se è un'istanza di Luogo
-                Luogo luogo = (Luogo) obj; // Casting a Luogo
-                s.append("- " + luogo.toStringLuogo()); // Usa toStringLuogo()
-            } else {
-                s.append("\t - L'elemento NON è un Luogo!");
-            }
-            s.append("\n");
-        }
-        return s.toString();
-    }
-    
-    //non usato
-    public String visualizzaTipoVisita() {
-        StringBuffer s = new StringBuffer();
-        for (String key : this.elenco.keySet()) {
-        	Object obj = this.elenco.get(key); // Ottieni l'oggetto dalla HashMap
-            
-            if (obj instanceof TipoVisita) { // Controlla se è un'istanza di Luogo
-                TipoVisita tipoVisita = (TipoVisita) obj; // Casting a Luogo
-                s.append("- " + tipoVisita.toStringTipoVisita()); // Usa toStringLuogo()
-            } else {
-                s.append("\t - L'elemento NON è un TipoVisita!");
-            }
-            s.append("\n");
-        }
-        return s.toString();
+    public boolean vuoto() {
+    	return this.elenco.isEmpty();
     }
 }

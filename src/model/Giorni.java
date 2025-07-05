@@ -1,5 +1,6 @@
 package model;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
@@ -33,12 +34,37 @@ public enum Giorni {
         throw new IllegalArgumentException("Nessun giorno corrisponde alla stringa: " + gg);
     }
 
-    public static boolean equalsGiorno(ArrayList<Giorni> giorni, LocalDate giorno) {
-        for (Giorni g : giorni) {
-            if (g.getdescrizione().equals(giorno.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ITALY).toLowerCase())) {
-                return true;
-            }
+    public static Giorni traduci(LocalDate giorno) {
+        
+        DayOfWeek giornoDellaSettimana = giorno.getDayOfWeek();
+
+        switch (giornoDellaSettimana) {
+            case MONDAY:
+                return Giorni.LUNEDI;
+            case TUESDAY:
+                return Giorni.MARTEDI;
+            case WEDNESDAY:
+                return Giorni.MERCOLEDI;
+            case THURSDAY:
+                return Giorni.GIOVEDI;
+            case FRIDAY:
+                return Giorni.VENERDI;
+            case SATURDAY:
+                return Giorni.SABATO;
+            case SUNDAY:
+                return Giorni.DOMENICA;
+            default:
+                throw new IllegalArgumentException("Giorno non valido: " + giornoDellaSettimana);
         }
+    }
+
+    public static boolean equalsGiorno1(ArrayList<Giorni> giorni, LocalDate giorno, Volontario v) {
+
+
         return false;
+    }
+
+    public static boolean equals(Giorni gg, LocalDate d){
+        return gg.getdescrizione().equalsIgnoreCase(d.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ITALY));
     }
 }

@@ -26,22 +26,30 @@ public class Configuratore extends Utente{
 
     public Utente creaVolontario(String[] dati){
 
-        String username = dati[0];
+        try{
+            String username = dati[0];
         String password = dati[1];
         Utente x = new Volontario(username, password);
         DatiCondivisi.aggiungiUtente(x);
 
         return x;
+        }catch (IllegalArgumentException e){
+            throw new IllegalArgumentException("Errore nella creazione del volontario: " + e.getMessage());
+        }
     }
 
     public Utente creaConfiguratore(String[] dati){
 
-        String username = dati[0];
+        try{
+            String username = dati[0];
         String password = dati[1];
         Utente x = new Configuratore(username, password);
         DatiCondivisi.aggiungiUtente(x);
 
         return x;
+        }catch (IllegalArgumentException e){
+            throw new IllegalArgumentException("Errore nella creazione del configuratore: " + e.getMessage());
+        }
     }
 
     public void creaTipoVisita(
@@ -54,24 +62,50 @@ public class Configuratore extends Utente{
             int durata,
             String bigliettoNecessario,
             int minPartecipanti,
-            int maxPartecipanti,
-            Elenco<Volontario> elencoVolontari){
+            int maxPartecipanti){
 
         TipoVisita x = new TipoVisita(titolo, descrizione, puntoIncontro, periodoAnno, giorniDisponibili,
                           oraInizio, durata, bigliettoNecessario,
                           minPartecipanti, maxPartecipanti);
 
-        for (Volontario v : elencoVolontari.getElenco().values()) {
-            x.aggiungiVolontario(v);
-        }
         DatiCondivisi.aggiungiTipoVisita(x);
     }
+
 
     public void setNumeroMassimoIscrittiFruitore(int num){
         DatiCondivisi.setNumeroMassimoIscrittiFruitore(num);
     }
     
     public void aggiungiDatePrecluse(LocalDate datePrecluse) {
-        DatiCondivisi.aggiungiData(datePrecluse);
+        DatiCondivisi.aggiungiDataMese3(datePrecluse);
+    }
+
+    public void rimuoviTipoVisitaDaLuogo(Luogo l, TipoVisita t) {
+        l.rimuoviDaElencoTipiVisita(t);
+        t.rimuoviLuogo(l);
+        for(Volontario v : t.getElencoVolontari().getElenco().values()){
+            v.rimuoviTipoVisita(t);
+            t.rimuoviVolontario(v);
+        }
+    }
+
+    public void rimuoviLuogo(Luogo l){
+        DatiCondivisi.rimuoviLuogo(l);
+        for(TipoVisita t : l.getElencoVisite().getElenco().values()){
+            t.rimuoviLuogo(l);
+            for(Volontario v : t.getElencoVolontari().getElenco().values()){
+                v.rimuoviTipoVisita(t);
+                t.rimuoviVolontario(v);
+            }
+        }
+    }
+
+    public void rimuoviVolontario(Volontario v) {
+
+        for (TipoVisita t : v.getElencoTipiVisita().getElenco().values()) {
+            t.rimuoviVolontario(v);
+        }
+
+        DatiCondivisi.rimuoviVolontario(v);
     }
 }

@@ -22,10 +22,29 @@ public class CLI {
             infoCorpoDati[1] = in.nextLine();
         }catch(Exception e){
         	System.out.println("ERRORE durante l'inserimento dei dati per la creazione del corpo dati!");
-            e.printStackTrace();
         }
 
         return infoCorpoDati;
+    }
+
+    public static String[] signin(){
+        String[] datiUtente = new String[3];
+
+        try{
+        	System.out.println("-----------------------------------");
+        	System.out.println("Fase della registrazione utente!\n");
+            System.out.printf("Inserisci il tuo username: ");
+            datiUtente[0] = in.nextLine();
+            System.out.printf("Inserisci la tua password: ");
+            datiUtente[1] = in.nextLine();
+            System.out.printf("conferma la tua password: ");
+            datiUtente[2] = in.nextLine();
+            
+        	System.out.println("-----------------------------------");
+        }catch(Exception e){
+        	System.out.println("ERRORE durante l'inserimento dei dati per il login!");
+        }
+        return datiUtente;
     }
         
      //aggiungi metodo sign in
@@ -43,7 +62,6 @@ public class CLI {
         	System.out.println("-----------------------------------");
         }catch(Exception e){
         	System.out.println("ERRORE durante l'inserimento dei dati per il login!");
-            e.printStackTrace();
         }
         return datiUtente;
     }
@@ -59,7 +77,6 @@ public class CLI {
             datiUtente[1] = in.nextLine();
         }catch(Exception e){
         	System.out.println("ERRORE durante l'inserimento dei dati per il nuovo utente!");
-            e.printStackTrace();
         }
         return datiUtente;
     }
@@ -89,7 +106,6 @@ public class CLI {
             scelta = Integer.parseInt(in.nextLine());
         }catch(Exception e){
         	System.out.println("ERRORE durante l'inserimento della scelta!");
-            e.printStackTrace();
         }
         return scelta;
     }
@@ -103,7 +119,6 @@ public class CLI {
             scelta = in.nextLine();
         }catch(Exception e){
         	System.out.println("ERRORE durante l'inserimento della scelta!");
-            e.printStackTrace();
         }
         return scelta;
     }
@@ -132,8 +147,21 @@ public class CLI {
         	System.out.println("-----------------------------------");
         }catch(Exception e){
         	System.out.println("ERRORE durante l'inserimento dei dati per il login!");
-            e.printStackTrace();
         }
         return datiUtente;
+    }
+
+    public static String[] prenotaVisita(){
+        String[] datiVisita = new String[2];
+
+        try{
+            System.out.printf("Inserire il codice della visita: ");
+            datiVisita[0] = in.nextLine();
+            System.out.printf("Inserire il numero di persone: ");
+            datiVisita[1] = in.nextLine();
+        }catch(Exception e){
+        	System.out.println("ERRORE durante l'inserimento dei dati per la prenotazione della visita!");
+        }
+        return datiVisita;
     }
 }
