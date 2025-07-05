@@ -61,10 +61,10 @@ public class Visita {
         return iscrizioni;
     }
 
-    @Override
-    public String toString() {
-        return this.tipo.toString() + "-" + this.dataVisita.toString();
-    }
+    // @Override
+    // public String toString() {
+    //     return this.tipo.toString() + "-" + this.dataVisita.toString();
+    // }
 
     public void aggiungiIscrizione(Fruitore fruitore, int numPersone) {
 

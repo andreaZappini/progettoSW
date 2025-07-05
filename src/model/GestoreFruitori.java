@@ -12,8 +12,12 @@ public class GestoreFruitori {
         return instance;
     }
 
-    public void aggiungiFruitore(String username, String password) {
-        DatiCondivisi.aggiungiUtente(new Fruitore(username, password));
+    // public void aggiungiFruitore(String username, String password) {
+    //     DatiCondivisi.aggiungiUtente(new Fruitore(username, password));
+    // }
+
+    public void aggiungiFruitore(String nome, String password) {
+        UserFactory.creaFruitore(nome, password);
     }
 
 

@@ -94,26 +94,26 @@ public class TipoVisita {
         return this.elencoVolontari;
     }
 
-    public String toStringTipoVisita(){
-    	StringBuffer s = new StringBuffer();
+    // public String toStringTipoVisita(){
+    // 	StringBuffer s = new StringBuffer();
     	
-    	if (!this.giorniDisponibili.isEmpty()) {
-            s.append(this.giorniDisponibili.get(0));
-            for (int i = 1; i < this.giorniDisponibili.size(); i++) {
-                s.append(", ").append(this.giorniDisponibili.get(i));
-            }
-        }
+    // 	if (!this.giorniDisponibili.isEmpty()) {
+    //         s.append(this.giorniDisponibili.get(0));
+    //         for (int i = 1; i < this.giorniDisponibili.size(); i++) {
+    //             s.append(", ").append(this.giorniDisponibili.get(i));
+    //         }
+    //     }
     	
-    	return this.titolo + " [" + this.descrizione + "]\n"
-        + "Il punto d'incontro per questo tipo di visita sarà: " + this.puntoIncontro
-        + "\ne si terrà in " + this.periodoAnno + " nei giorni " + s.toString() 
-        + "\na partire dalle ore " + this.oraInizio
-        + " per una durata di " + this.durata + " minuti.\n"
-        + "Necessità del biglietto: " + this.bigliettoNecessario 
-        + "\n(numero minimo partecipanti: " + this.minPartecipanti
-        + "; numero massimo partecipanti: " + this.maxPartecipanti + ")\n"
-        + "L'elenco delle guide volontarie è:\n" + this.elencoVolontari.visualizza();
-    }
+    // 	return this.titolo + " [" + this.descrizione + "]\n"
+    //     + "Il punto d'incontro per questo tipo di visita sarà: " + this.puntoIncontro
+    //     + "\ne si terrà in " + this.periodoAnno + " nei giorni " + s.toString() 
+    //     + "\na partire dalle ore " + this.oraInizio
+    //     + " per una durata di " + this.durata + " minuti.\n"
+    //     + "Necessità del biglietto: " + this.bigliettoNecessario 
+    //     + "\n(numero minimo partecipanti: " + this.minPartecipanti
+    //     + "; numero massimo partecipanti: " + this.maxPartecipanti + ")\n"
+    //     + "L'elenco delle guide volontarie è:\n" + this.elencoVolontari.visualizza();
+    // }
 
     @Override
     public String toString(){

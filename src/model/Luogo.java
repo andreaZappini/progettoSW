@@ -13,6 +13,18 @@ public class Luogo{
         this.visite = new Elenco<>();
     }
 
+    public String getCodiceLuogo() {
+        return this.codiceLuogo;
+    }
+
+    public String getDescrizione() {
+        return this.descrizione;
+    }
+
+    public String getCollocazioneGeografica() {
+        return this.collocazioneGeografica;
+    }
+
     public void aggiungiAElencoVisite(TipoVisita v){
        this.visite.aggiungi(v);
     }

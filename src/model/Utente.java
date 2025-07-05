@@ -41,10 +41,10 @@ public abstract class Utente {
         return this.password.equals(psw);
     }
 
-    @Override
-    public String toString() {
-        return this.username;
-    }
+    // @Override
+    // public String toString() {
+    //     return this.username;
+    // }
 
     public void setPrimoAccesso() {
         this.primoAccesso = false;

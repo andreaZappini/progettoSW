@@ -28,11 +28,8 @@ public class Configuratore extends Utente{
 
         try{
             String username = dati[0];
-        String password = dati[1];
-        Utente x = new Volontario(username, password);
-        DatiCondivisi.aggiungiUtente(x);
-
-        return x;
+            String password = dati[1];
+            return UserFactory.creaVolontario(username, password);
         }catch (IllegalArgumentException e){
             throw new IllegalArgumentException("Errore nella creazione del volontario: " + e.getMessage());
         }
@@ -42,11 +39,8 @@ public class Configuratore extends Utente{
 
         try{
             String username = dati[0];
-        String password = dati[1];
-        Utente x = new Configuratore(username, password);
-        DatiCondivisi.aggiungiUtente(x);
-
-        return x;
+            String password = dati[1];
+            return UserFactory.creaConfiguratore(username, password);
         }catch (IllegalArgumentException e){
             throw new IllegalArgumentException("Errore nella creazione del configuratore: " + e.getMessage());
         }
